@@ -1,4 +1,8 @@
-<?php use_helper('Url');
+<?php 
+
+use_helper('Filter');
+use_helper('Url');
+
 function getClass($filiere)
 {
   switch($filiere)
@@ -16,7 +20,18 @@ function getClass($filiere)
   }
 }
 ?>
-<h1>Liste des membres</h1>
+<header>
+	<h1>Liste des membres (<?php echo count($membres); ?>)</h1>
+	<aside>
+		<ul>
+			<li><?php echo filter_link_to('Membres"',  '@annuaire', 'membre'); ?></li>
+			<li><?php echo filter_link_to('Ancien"',   '@annuaire', 'ancien'); ?></li>
+			<li><?php echo filter_link_to('Membres',   '@annuaire', array($sf_request, 'membre')); ?></li>
+			<li><?php echo filter_link_to('Anciens',   '@annuaire', array($sf_request, 'ancien')); ?></li>
+			<li><?php echo link_to('Ajouter un membre', '@annuaire?action=new', array('class'  => 'actionnew')) ?></li>
+		</ul>
+	</aside>
+</header>
 
 <table>
   <thead>
@@ -43,5 +58,3 @@ function getClass($filiere)
     <?php endforeach; ?>
   </tbody>
 </table>
-
-<?php echo link_to('Ajouter un membre', '@annuaire?action=new', array('class'  => 'actionnew')) ?>

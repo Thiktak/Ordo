@@ -15,6 +15,11 @@ annuaire.index:
   url:  /annuaire/
   param: { module: annuaire, action: index }
 
+## Trombinoscope
+annuaire.trombi:
+  url: /annuaire/trombi/*
+  param: { module: annuaire, action: trombi }
+
 ## Carte
 carte:
   url: /carte/:action/*

@@ -17,6 +17,40 @@ function getClass($filiere)
 }
 ?>
 
+<header>
+	<h1>
+		<?php echo $membre; ?>
+	</h1>
+	<aside>
+		<ul>
+			<li><?php echo link_to('Editer la fiche', '@annuaire?action=edit&id='.$membre->getId(), array('class' => 'actionedit')) ?></li>
+			<li><?php echo link_to('Changer mon mot de passe', '@annuaire?action=changeMDP') ?></li>
+			<li><?php echo link_to('Modifier la photo', '@annuaire?action=changePhoto') ?></li>
+<?php 
+  if($user->isAdmin())
+  {
+    switch($membre->getStatus()) 
+    {
+      case 'Administrateur':
+        echo '<li>'.link_to('Désactiver les droits admin', '@annuaire?action=status&id='.$membre->getId().'&status=Membre').'</li>';
+        echo '<li>'.link_to('Marquer comme ancien', '@annuaire?action=status&id='.$membre->getId().'&status=Ancien').'</li>';
+        break;
+      case 'Membre':
+        echo '<li>'.link_to('Passer administateur', '@annuaire?action=status&id='.$membre->getId().'&status=Administrateur').'</li>';
+        echo '<li>'.link_to('Marquer comme ancien', '@annuaire?action=status&id='.$membre->getId().'&status=Ancien').'</li>';
+        break;
+      case 'Ancien':
+        echo '<li>'.link_to('Marquer comme membre actuel', '@annuaire?action=status&id='.$membre->getId().'&status=Membre').'</li>';
+        break;
+    }
+  }
+?>
+			<li><?php echo link_to('Retour à la liste', '@annuaire', array('class' => 'actionlist')) ?></li>
+		</ul>
+	</aside>
+</header>
+
+
 <div id='annuaire.show.tableauID'>
   <table>
     <tbody>
@@ -118,6 +152,8 @@ $CE = $membre->getConventionEtudiant();
 ?>
 
 <?php if(!$user->isAncien()): ?>
+<br />
+
 <div id='annuaire.show.tableauDocument'>
   <table>
     <thead>
@@ -159,33 +195,3 @@ $CE = $membre->getConventionEtudiant();
   </table>
 </div>
 <?php endif ?>
-
-<div id='annuaire.show.button'>
-  <ul>
-    <li><?php echo link_to('Editer la fiche', '@annuaire?action=edit&id='.$membre->getId(), array('class' => 'actionedit')) ?></li>
-    <li><?php echo link_to('Changer mon mot de passe', '@annuaire?action=changeMDP') ?></li>
-
-  <?php 
-  if($user->isAdmin())
-  {
-    switch($membre->getStatus()) 
-    {
-      case 'Administrateur':
-        echo '<li>'.link_to('Désactiver les droits admin', '@annuaire?action=status&id='.$membre->getId().'&status=Membre').'</li>';
-        echo '<li>'.link_to('Marquer comme ancien', '@annuaire?action=status&id='.$membre->getId().'&status=Ancien').'</li>';
-        break;
-      case 'Membre':
-        echo '<li>'.link_to('Passer administateur', '@annuaire?action=status&id='.$membre->getId().'&status=Administrateur').'</li>';
-        echo '<li>'.link_to('Marquer comme ancien', '@annuaire?action=status&id='.$membre->getId().'&status=Ancien').'</li>';
-        break;
-      case 'Ancien':
-        echo '<li>'.link_to('Marquer comme membre actuel', '@annuaire?action=status&id='.$membre->getId().'&status=Membre').'</li>';
-        break;
-    }
-  }
-  ?>
-
-    <li><?php echo link_to('Retour à la liste', '@annuaire', array('class' => 'actionlist')) ?></li>
-  </ul>
-</div>
-

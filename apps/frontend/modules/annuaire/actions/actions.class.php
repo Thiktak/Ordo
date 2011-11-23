@@ -139,6 +139,37 @@ class annuaireActions extends sfActions
 
     $this->setTemplate('changeMDP');
   }
+  
+  
+  public function executeChangePhoto(sfWebRequest $request)
+  {
+    $this->forward404Unless($this->user = Membre::getProfile($_SERVER['PHP_AUTH_USER']));
+    $this->form = new ImageMembreForm($this->user);
+    //$this->form->getCSRFToken();
+    //$this->processForm($request, $this->form);
+    
+  }
+  
+  public function executeUpdatePhoto(sfWebRequest $request)
+  {  
+	$this->forward404Unless($this->user = Membre::getProfile($_SERVER['PHP_AUTH_USER']));
+    
+	if( $this->user->isAdmin() )
+		$id = $request->getParameter('id');
+	else
+		$id = $this->user->getId();
+	
+	$this->membre = Doctrine_Core::getTable('Membre')->find(array($id));
+	$this->forward404Unless($this->membre, sprintf('Object membre does not exist (%s).', $id));
+
+	//$this->form = new ImageMembreForm($this->user);
+
+	$this->form = new ImageMembreForm();//$this->membre);
+	//$this->form->getCSRFToken();
+    $this->processForm($request, $this->form);
+    
+    $this->setTemplate('changePhoto');
+  }
 
   public function executeStatus(sfWebRequest $request)
   {
@@ -154,8 +185,10 @@ class annuaireActions extends sfActions
 
   public function executeUpdate(sfWebRequest $request)
   {
+	$this->id = $request->getParameter('id');
+    
     $this->forward404Unless($request->isMethod(sfRequest::POST) || $request->isMethod(sfRequest::PUT));
-    $this->forward404Unless($this->membre = Doctrine_Core::getTable('Membre')->find(array($request->getParameter('id'))), sprintf('Object membre does not exist (%s).', $request->getParameter('id')));
+    $this->forward404Unless($this->membre = Doctrine_Core::getTable('Membre')->find(array($this->id)), sprintf('Object membre does not exist (%s).', $this->id));
     $this->forward404Unless($this->user = Membre::getProfile($_SERVER['PHP_AUTH_USER']));
 
     if($this->user->isAdmin())
@@ -203,6 +236,43 @@ class annuaireActions extends sfActions
       ->select('*, COUNT(*) AS nombre_cotisations')
       ->orderBy('c.annee')
       ->execute();
+  }
+
+  public function executeTrombi(sfWebRequest $request)
+  {
+    $membres = Doctrine_Core::getTable('Membre')
+      ->createQuery('a')
+      ->select('a.id, a.nom, a.prenom, a.username, a.poste, a.tel_mobile, a.email_interne, a.promo, a.filiere, a.status')
+      ->Where('a.status = ? OR a.status = ?', array('Membre', 'Administrateur'));
+    
+    if( $request->getParameter('pole') )
+		$membres->andWhere('a.poste LIKE ?', array('%' . $request->getParameter('pole') . '%'));
+		
+    if( $request->getParameter('promo') )
+		$membres->andWhere('a.promo = ?', $request->getParameter('promo'));
+    
+    $this->membres = $membres->orderBy('SUBSTRING(a.email_interne, 2), a.nom')->execute();
+	
+    $oPoles = Doctrine_Core::getTable('Membre')
+	  ->createQuery('a')
+	  ->select('DISTINCT a.poste, a.promo')
+	  ->execute();
+	
+	$aReturnPromos = array();
+	$aReturnPoles  = array();
+	foreach( $oPoles as $aPole )
+	{
+		if( !empty($aPole->poste) )
+		{
+			$sPole = ucfirst(str_replace('*', '', strpos($aPole->poste, ' ') !== False ? substr(strrchr($aPole->poste, ' '), 1) : $aPole->poste));
+			$aReturnPoles[$sPole] = strtolower($sPole);
+		}
+		
+		if( !empty($aPole->promo) )
+			$aReturnPromos[$aPole->promo] = $aPole->promo;
+	}
+	$this->poles  = $aReturnPoles;
+	$this->promos = $aReturnPromos;
   }
 
   protected function processForm(sfWebRequest $request, sfForm $form)

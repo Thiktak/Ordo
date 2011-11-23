@@ -20,6 +20,7 @@ Membre:
     promo:               { type: integer, notnull: true }
     filiere:             { type: enum, values: [Informatique, Automatique, Mécanique, Textile, Système de prod], notnull: true }
     poste:               { type: string(50) }
+    photo:               { type: string(50) }
 
     # adresses
     adresse_mulhouse:    { type: string(4000), notnull: true }
