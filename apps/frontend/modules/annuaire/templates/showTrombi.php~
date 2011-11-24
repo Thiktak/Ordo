@@ -1,0 +1,7 @@
+<ul id="annuaire.trombi">
+  <?php foreach( $membres as $membre ): ?>
+  <li>
+    <img src="<?php //echo $membre->getID(); ?>" />
+  </li>
+  <?php endforeach; ?>
+</ul>

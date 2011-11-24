@@ -1,3 +1,7 @@
+<header>
+	<h1>Trombinoscope</h1>
+</header>
+
 <style>
 	#annuaire-trombi aside { margin: 0; padding: 0; text-align: center; }
 	#annuaire-trombi aside li { margin: 5px 10px; padding: 0; text-align: center; display: inline-block; }
@@ -20,8 +24,6 @@
 	a.active { font-weight: bold; }
 </style>
 
-
-<h1>Trombinoscope</h1>
 <div id="annuaire-trombi">
 	<aside>
 		<ul class="liens1">
@@ -46,7 +48,7 @@
 	  <?php foreach( $membres as $membre ): ?>
 	  <li data-filter="<?php echo strtolower($membre->getPoste()); ?>" class="<?php echo strpos($membre->getPoste(), '*') !== false ? 'responsable' : null; ?>">
 		<figure title="Tél: <?php echo $membre->getTelMobile(); ?> - Email: <?php echo $membre->getEmailInterne(); ?>">
-			<?php echo image_tag('annuaire/trombi/' . $membre->getID() . '.gif'); ?>
+			<?php echo image_tag('/uploads/annuaire/' . $membre->getPhoto()); ?>
 			<figcaption>
 				<a href="<?php echo url_for('@annuaire?action=show&id=' . $membre->getId()); ?>">
 					<?php if( $membre->getNom() . $membre->getPrenom() ): ?>

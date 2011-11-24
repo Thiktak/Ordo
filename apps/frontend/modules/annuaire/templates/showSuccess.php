@@ -25,7 +25,7 @@ function getClass($filiere)
 		<ul>
 			<li><?php echo link_to('Editer la fiche', '@annuaire?action=edit&id='.$membre->getId(), array('class' => 'actionedit')) ?></li>
 			<li><?php echo link_to('Changer mon mot de passe', '@annuaire?action=changeMDP') ?></li>
-			<li><?php echo link_to('Modifier la photo', '@annuaire?action=changePhoto') ?></li>
+			<li><?php echo link_to('Modifier la photo', '@annuaire?action=changePhoto&id=' . $membre->getId()) ?></li>
 <?php 
   if($user->isAdmin())
   {
@@ -52,6 +52,8 @@ function getClass($filiere)
 
 
 <div id='annuaire.show.tableauID'>
+  
+  <?php echo image_tag('/uploads/annuaire/' . $membre->getPhoto(), array('style' => 'float: left; margin: 10px;')); ?>
   <table>
     <tbody>
       <tr>
@@ -195,3 +197,22 @@ $CE = $membre->getConventionEtudiant();
   </table>
 </div>
 <?php endif ?>
+
+<header>
+	<h1>Mes projets</h1>
+</header>
+<table>
+	<thead>
+		<tr>
+			<th>Projet</th>
+			<th>Date</th>
+			<th>Etat</th>
+			<th>Qualité</th>
+			<th>JEH</th>
+		</tr>
+	</thead>
+	<tr>
+		<td>Projet name</td>
+		<td>Projet etat</td>
+	</tr>
+</table>
