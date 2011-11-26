@@ -1,5 +1,8 @@
-<h1>Liste des cotisations</h1>
-
+<article>
+	<header>
+		<h1>Liste des cotisations</h1>
+	</header>
+	
 <h2>Par membre</h2>
 <table>
   <thead>
@@ -119,3 +122,4 @@ $(function () {
 
 
   <a href="<?php echo url_for('cotisation/new') ?>">New</a>
+</article>

@@ -236,6 +236,50 @@ td {
   background: url(../images/delete.png) no-repeat 0 0;
 }
 
+
+/* ADDED */
+
+#contenu .aside { text-align: right; }
+#contenu .aside li { margin: 2px 0; padding: 1px 4px; list-style-type: none; display: inline-block; font-size: .8em; border: 1px solid Gray; background-color: LightGray; box-shadow: 0 0 3px gray; opacity: .5; }
+#contenu .aside li:hover { opacity: 1; }
+#contenu .aside li a { text-decoration: none; }
+
+#projet-profil { }
+#projet-profil dt { margin: 0 2%; padding: 0; width: 15%; display: inline-block; text-align: right; color: DarkGray; vertical-align: top; }
+#projet-profil dd { margin: 0; padding: 0; width: 29%; display: inline-block; }
+
+#projet-errorlist li { list-style-type: none; margin: 2px; padding: 1px 20px; -moz-border-radius: 5px; }
+.projet-errorlist-error   { background-color: Red; }
+.projet-errorlist-warning { background-color: Orange; }
+.projet-errorlist-ok      { background-color: LightGreen; }
+
+
+#projet-content { width: 73%; padding-right: 2%; border-right: 1px solid black; }
+#projet-content dt { margin: 0; padding: 0; float: left; width: 120px; display: inline-block; text-align: center; color: DarkGray; vertical-align: top; }
+#projet-content dd { margin: 0; margin-left: 120px; margin-bottom: 20px; padding: 0; display: block; }
+#projet-content dd p { margin: 0; margin-left: 10px; color: Gray; font-size: .8em; }
+#projet-content dd .author { float: right; }
+#projet-content dd .infos { display: none; position: absolute; font-size: .6em; background-color: White; }
+#projet-content dd:hover .infos { display: block; }
+
+#projet-tableau { border: none; background: none; }
+#projet-tableau td { border: none; }
+#projet-tableau td { border-top: 1px solid Gray; }
+#projet-tableau td { margin: 2px; }
+#projet-tableau .ColDate   { color: DarkGray; vertical-align: top; }
+#projet-tableau .ColCom    { text-align: left; }
+#projet-tableau .ColCom1   { }
+#projet-tableau .ColCom2   { }
+#projet-tableau .ColStatut { }
+#projet-tableau p { margin: 0; margin-left: 10px; font-size: .8em; }
+
+#projet-equip { margin: 0; padding: 0; width: 24%; float: right; font-size: .7em; }
+#projet-equip li { margin: 0; padding: 0; list-style-type: none; }
+#projet-equip li .role { font-size: .6em; display: inline-block; text-align: center; width: 40px; }
+#projet-equip li .com { display: block; }
+#projet-equip li .com { display: block; }
+
+
 /* --- NOTES ---
 
 1.	C'est la couleur de fond de div#global qui permet de simuler des colonnes

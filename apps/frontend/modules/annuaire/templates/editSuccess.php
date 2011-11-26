@@ -1,3 +1,4 @@
+<article>
 <?php
   if($user->isAdmin())
   {
@@ -10,3 +11,4 @@
     include_partial('formMember', array('form' => $form));
   }
 ?>
+</article>
