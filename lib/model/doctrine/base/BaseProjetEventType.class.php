@@ -7,13 +7,19 @@
  * 
  * @property string $abreviation
  * @property string $description
+ * @property integer $ordre
+ * @property integer $obligatoire
  * @property Doctrine_Collection $ProjetEvent
  * 
  * @method string              getAbreviation() Returns the current record's "abreviation" value
  * @method string              getDescription() Returns the current record's "description" value
+ * @method integer             getOrdre()       Returns the current record's "ordre" value
+ * @method integer             getObligatoire() Returns the current record's "obligatoire" value
  * @method Doctrine_Collection getProjetEvent() Returns the current record's "ProjetEvent" collection
  * @method ProjetEventType     setAbreviation() Sets the current record's "abreviation" value
  * @method ProjetEventType     setDescription() Sets the current record's "description" value
+ * @method ProjetEventType     setOrdre()       Sets the current record's "ordre" value
+ * @method ProjetEventType     setObligatoire() Sets the current record's "obligatoire" value
  * @method ProjetEventType     setProjetEvent() Sets the current record's "ProjetEvent" collection
  * 
  * @package    Annuaire
@@ -33,6 +39,12 @@ abstract class BaseProjetEventType extends sfDoctrineRecord
         $this->hasColumn('description', 'string', 50, array(
              'type' => 'string',
              'length' => 50,
+             ));
+        $this->hasColumn('ordre', 'integer', null, array(
+             'type' => 'integer',
+             ));
+        $this->hasColumn('obligatoire', 'integer', null, array(
+             'type' => 'integer',
              ));
     }
 

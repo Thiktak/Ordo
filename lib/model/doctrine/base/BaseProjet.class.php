@@ -12,6 +12,8 @@
  * @property text $commentaire
  * @property real $budget
  * @property integer $delai_realisation
+ * @property real $avancement
+ * @property real $qualite
  * @property integer $prospect_id
  * @property Prospect $Prospect
  * @property Doctrine_Collection $Participants
@@ -25,6 +27,8 @@
  * @method text                getCommentaire()       Returns the current record's "commentaire" value
  * @method real                getBudget()            Returns the current record's "budget" value
  * @method integer             getDelaiRealisation()  Returns the current record's "delai_realisation" value
+ * @method real                getAvancement()        Returns the current record's "avancement" value
+ * @method real                getQualite()           Returns the current record's "qualite" value
  * @method integer             getProspectId()        Returns the current record's "prospect_id" value
  * @method Prospect            getProspect()          Returns the current record's "Prospect" value
  * @method Doctrine_Collection getParticipants()      Returns the current record's "Participants" collection
@@ -37,6 +41,8 @@
  * @method Projet              setCommentaire()       Sets the current record's "commentaire" value
  * @method Projet              setBudget()            Sets the current record's "budget" value
  * @method Projet              setDelaiRealisation()  Sets the current record's "delai_realisation" value
+ * @method Projet              setAvancement()        Sets the current record's "avancement" value
+ * @method Projet              setQualite()           Sets the current record's "qualite" value
  * @method Projet              setProspectId()        Sets the current record's "prospect_id" value
  * @method Projet              setProspect()          Sets the current record's "Prospect" value
  * @method Projet              setParticipants()      Sets the current record's "Participants" collection
@@ -64,7 +70,6 @@ abstract class BaseProjet extends sfDoctrineRecord
              ));
         $this->hasColumn('date_debut', 'date', null, array(
              'type' => 'date',
-             'notnull' => true,
              ));
         $this->hasColumn('date_cloture', 'date', null, array(
              'type' => 'date',
@@ -77,6 +82,12 @@ abstract class BaseProjet extends sfDoctrineRecord
              ));
         $this->hasColumn('delai_realisation', 'integer', null, array(
              'type' => 'integer',
+             ));
+        $this->hasColumn('avancement', 'real', null, array(
+             'type' => 'real',
+             ));
+        $this->hasColumn('qualite', 'real', null, array(
+             'type' => 'real',
              ));
         $this->hasColumn('prospect_id', 'integer', null, array(
              'type' => 'integer',

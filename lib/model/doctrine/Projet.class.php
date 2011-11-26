@@ -25,17 +25,7 @@ class Projet extends BaseProjet
 
     return null;
   }
-
-  public function getEtat()
-  {
-    return '';
-  }
-
-  public function getQualite()
-  {
-    return '';
-  }
-
+  
   public function getParticipations()
   {
     return Doctrine_Core::getTable('LienMembreProjet')
@@ -45,5 +35,22 @@ class Projet extends BaseProjet
       ->where('l.projet_id = ?', array($this->getId()))
       ->orderBy('l.role')
       ->execute();
+  }
+  
+  public function getLastEventCom()
+  {
+	  
+	  return Doctrine_Core::getTable('ProjetEventCom')
+		->createQuery('c')
+		->select('c.date, c.id')
+		->leftJoin('c.ProjetEvent e')
+		->leftJoin('e.Projet p')
+		->where('p.id = ?', $this->getId())
+		->where('c.statut != 1')
+		->orderBy('c.date')
+		->groupBy('e.id')
+		//->limit(1)//
+		->fetchOne();
+	  // */
   }
 }

@@ -17,14 +17,16 @@ class ProjetForm extends BaseProjetForm
     unset($this['created_at'],
           $this['updated_at'],
           $this['deleted_at'],
-          $this['participants_list']);
+          $this['participants_list'],
+          $this['avancement'],
+          $this['qualite']);
 
     $this->widgetSchema['date_debut'] = new sfWidgetFormJQueryDate(array(
       'image'=>'/images/calendar.png',
       'culture'=>'fr',
       'date_widget' => new sfWidgetFormDate(array('format' => '%day%/%month%/%year%')),
     ));
-    $this->setValidator('date_debut', new sfValidatorDate(array('max' => date('Y-m-d'))));
+    $this->setValidator('date_debut', new sfValidatorDate(array('max' => date('Y-m-d'), 'required' => false)));
     $this->setDefault('date_debut', date('Y-m-d'));
 
     $this->widgetSchema['date_cloture'] = new sfWidgetFormJQueryDate(array(
