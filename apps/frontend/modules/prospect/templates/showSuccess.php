@@ -1,11 +1,14 @@
 <?php use_helper('Date') ?>
 
-<ul>
-  <li><?php echo link_to('Ajouter un appel','@contact?action=new&type=appel&prospect_id='.$prospect->getId()) ?></li>
-  <li><?php echo link_to('Ajouter un email','@contact?action=new&type=email&prospect_id='.$prospect->getId()) ?></li>
-</ul>
-
-<h1><?php echo $prospect->getNom() ?></h1>
+<header>
+	<h1><?php echo $prospect->getNom() ?></h1>
+	<aside>
+		<ul>
+		  <li><?php echo link_to('Ajouter un appel','@contact?action=new&type=appel&prospect_id='.$prospect->getId()) ?></li>
+		  <li><?php echo link_to('Ajouter un email','@contact?action=new&type=email&prospect_id='.$prospect->getId()) ?></li>
+		</ul>
+	</aside>
+</header>
 
 <?php if($contacts->count()): ?>
   <?php include_partial('contact/list', array('contacts' => $contacts)) ?>
