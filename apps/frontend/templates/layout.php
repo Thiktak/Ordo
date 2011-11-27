@@ -8,8 +8,22 @@
     <?php include_javascripts() ?>
     <script type="text/javascript">
 		$(function() {
-			url = window.location.href.replace('http://erp.localhost', '');
-			$('a[href="' + url + '"]').addClass('active');
+			url1 = window.location.href.replace('http://erp.localhost/', '');
+			url  = url1.split('/');
+			
+			if( url.length >= 3 )
+				url = url[0] + '/' + url[1] + '/' + url[2];
+			else if( url.length == 2 )
+				url = url[0] + '/' + url[1];
+			else if( url.length == 1 )
+				url = url[0];
+			
+			url = url.replace('/show', '/index');
+			
+			$('nav a[href*="/' + url + '"]').css('text-decoration', 'underline');
+			$('nav a[href*="/' + url1 + '"]').css('text-decoration', 'underline');
+			$('nav a[href ="/' + url + '"]').css('color', 'White');
+			$('nav a[href ="/' + url1 + '"]').css('color', 'White');
 		}).jQuery();
     </script>
   </head>
@@ -65,30 +79,35 @@
 			  </li>
 			  <li><span>Contacts commerciaux</span>
 				<ul>
-				  <li><?php echo link_to('Liste des prospects', '@prospect.index', array('class' => 'actionlist')) ?></li>
+				  <li><?php echo link_to('Liste des prospects', '@prospect', array('class' => 'actionlist')) ?></li>
 				  <li><?php echo link_to('Ajouter un prospect', '@prospect?action=new', array('class' => 'actionnew')) ?></li>
-				  <li><?php echo link_to('Liste des appels', '@contact.index', array('class' => 'actionlist')) ?></li>
+				  <li><?php echo link_to('Liste des appels', '@contact', array('class' => 'actionlist')) ?></li>
 				  <li><?php echo link_to('Ajouter un appel', '@contact?action=new', array('class' => 'actionnew')) ?></li>
-				  <li><a href="#" style="text-decoration: line-through;">Liste des Rendez-vous</a></li>
-				  <li><a href="#" style="text-decoration: line-through;">Ajouter un Rendez-vous</a></li>
+				  <!--<li><a href="#" style="text-decoration: line-through;">Liste des Rendez-vous</a></li>-->
+				  <!--<li><a href="#" style="text-decoration: line-through;">Ajouter un Rendez-vous</a></li>-->
 				  <li><?php echo link_to('Indicateurs', '@contact?action=stats') ?></li>
 				</ul>
 			  </li>
 			  <li><span>Projets</span>
 				<ul>
-				  <li><?php echo link_to('Liste des projets', '@projet.index', array('class' => 'actionlist')) ?></li>
+				  <li><?php echo link_to('Liste des projets', '@projet', array('class' => 'actionlist')) ?></li>
 				  <li><?php echo link_to('Ajouter un projet', '@projet?action=new', array('class' => 'actionnew')) ?></li>
 				  <li><?php echo link_to('Vue des documents', '@projet?action=document') ?></li>
 				  <li><?php echo link_to('Statistiques', '@projet?action=stats') ?></li>
 				</ul>
 			  </li>
-			  <li>
+			  <!--<li>
 				<span>Evenements</span>
 				<ul>
 					<li><a href="#" style="text-decoration: line-through;">Liste des évenements</a></li>
 					<li><a href="#" style="text-decoration: line-through;">Ajouter un evenement</a></li>
 				</ul>
-			  </li>
+			  </li>-->
+			  <li>
+				<span>Autre</span>
+				<ul>
+					<li><?php echo link_to('Statistiques', '@stats'); ?></li>
+				</ul>
 			  <?php endif ?>
 			</ul>
 		  </nav>
