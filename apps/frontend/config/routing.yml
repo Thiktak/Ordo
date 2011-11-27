@@ -6,6 +6,16 @@ homepage:
   url:   /
   param: { module: annuaire, action: index }
 
+## Agenda
+agenda:
+  url: /agenda/:action/*
+  param: { module: agenda, action: index }
+
+## Statistiques
+stats:
+  url: /stats/:action/*
+  param: { module: stats, action: index }
+
 ### Annuaire
 annuaire:
   url: /annuaire/:action/*
