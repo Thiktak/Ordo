@@ -35,21 +35,21 @@
 
 <script type="text/javascript">
 	$(function() {
-		function highlight($el, word) {
+		function highlight($el, word, _by) {
 			
 			var text = $el.html();
-			text = text.replace(new RegExp('(' + word + ')','gi'), '<span class="hl" style="background-color: rgba(255, 215, 0, .2);">$1</span>');
+			text = text.replace(new RegExp('(' + word + ')','gi'), _by);
 			$el.html(text);
 		}
 		
-		$.fn.highlight = function(word) {
+		$.fn.highlight = function(word, _by) {
 			return this.each(function() {
-				highlight($(this), word);
+				highlight($(this), word, _by);
 			});
 		};
 		
-		word = ('<?php echo $sf_request->getParameter('search'); ?>').split(' ');
-		for( _w in word )
-			$('.search').highlight(word[_w].replace('\.', '\\.'));
+		word = ('<?php echo $sf_request->getParameter('search'); ?>').split(' ').sort().reverse();
+		
+		$('.search').highlight(word.join('|'), '<strong style="background-color: rgba(255, 215, 0, .3);">$1</strong>');
 	}).jQuery();
 </script>
