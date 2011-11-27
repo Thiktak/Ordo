@@ -17,15 +17,15 @@ function getClass($filiere)
 }
 ?>
 <article>
-	<header>
-		<h1>
-			<?php echo $membre; ?>
-		</h1>
-		<aside>
-			<ul>
-				<li><?php echo link_to('Editer la fiche', '@annuaire?action=edit&id='.$membre->getId(), array('class' => 'actionedit')) ?></li>
-				<li><?php echo link_to('Changer mon mot de passe', '@annuaire?action=changeMDP') ?></li>
-				<li><?php echo link_to('Modifier la photo', '@annuaire?action=changePhoto&id=' . $membre->getId()) ?></li>
+  <header>
+    <h1>
+      <?php echo $membre; ?>
+    </h1>
+    <aside>
+      <ul>
+        <li><?php echo link_to('Editer la fiche', '@annuaire?action=edit&id='.$membre->getId(), array('class' => 'actionedit')) ?></li>
+        <li><?php echo link_to('Changer mon mot de passe', '@annuaire?action=changeMDP') ?></li>
+        <li><?php echo link_to('Modifier la photo', '@annuaire?action=changePhoto&id=' . $membre->getId()) ?></li>
 <?php 
   if($user->isAdmin())
   {
@@ -45,178 +45,178 @@ function getClass($filiere)
     }
   }
 ?>
-				<li><?php echo link_to('Retour à la liste', '@annuaire', array('class' => 'actionlist')) ?></li>
-			</ul>
-		</aside>
-	</header>
+        <li><?php echo link_to('Retour à la liste', '@annuaire', array('class' => 'actionlist')) ?></li>
+      </ul>
+    </aside>
+  </header>
 
 
-	<div id='annuaire.show.tableauID'>
-	  
-	  <?php echo image_tag('/uploads/annuaire/' . $membre->getPhoto(), array('style' => 'float: left; margin: 10px;')); ?>
-	  
-	  <table>
-		<tbody>
-		  <tr>
-			<th>Login</th>
-			<td><?php echo $membre->getUsername() ?></td>
-			<th>Numéro étudiant</th>
-			<td><?php echo $membre->getNumeroEtudiant() ?></td>
-		  </tr>
-		  <tr>
-			<th>Nom</th>
-			<td><?php echo $membre->getNom() ?></td>
-			<th>Poste</th>
-			<td><?php echo $membre->getPoste() ?></td>
-		  </tr>
-		  <tr>
-			<th>Prenom</th>
-			<td><?php echo $membre->getPrenom() ?></td>
-			<th>Filière</th>
-			<td class='<?php echo getClass($membre->getFiliere()) ?>'><?php echo $membre->getFiliere() ?></td>
-		  </tr>
-		  <tr>
-			<th>Adresse locale</th>
-			<td><?php echo nl2br($membre->getAdresseMulhouse()) ?><br/>
-				<?php echo $membre->getCpMulhouse() ?><br/>
-				<?php echo $membre->getVilleMulhouse() ?>
-			</td>
-			<th>Adresse des parents</th>
-			<td><?php echo nl2br($membre->getAdresseParents()) ?><br/>
-				<?php echo $membre->getCpParents() ?><br/>
-				<?php echo $membre->getVilleParents() ?>
-			</td>
-		  </tr>
-		  <tr>
-			<th>Sexe</th>
-			<td><?php echo $membre->getSexe() ?></td>
-			<th>Téléphone portable</th>
-			<td><?php echo $membre->getTelMobile() ?></td>
-		  </tr>
-		  <tr>
-			<th>Date de naissance</th>
-			<td><?php echo format_date($membre->getDateNaissance()) ?></td>
-			<th>Téléphone fixe</th>
-			<td><?php echo $membre->getTelFixe() ?></td>
-		  </tr>
-		  <tr>
-			<th>Ville de naissance</th>
-			<td><?php echo $membre->getVilleNaissance() ?></td>
-			<th>Email IARISS</th>
-			<td><?php echo $membre->getEmailInterne() ?></td>
-		  </tr>
-		  <tr>
-			<th>Numero de sécu</th>
-			<td><?php echo $membre->getNumeroSecu() ?></td>
-			<th>Email externe</th>
-			<td><?php echo $membre->getEmailExterne() ?></td>
-		  </tr>
-		  <tr>
-			<th>Status pour l'annuaire</th>
-			<td><?php echo $membre->getStatus() ?></td>
-			<th>Promotion</th>
-			<td><?php echo $membre->getPromo() ?></td>
-		  </tr>
-		  <tr>
-			<th>Fiche crée le</th>
-			<td><?php echo format_date($membre->getCreatedAt()) ?></td>
-			<th>Dernière mise à jour le</th>
-			<td><?php echo format_date($membre->getUpdatedAt()) ?></td>
-		  </tr>
-		  <tr>
-			<th>Cotisations</th>
-			<td>
-			  <?php 
-			  $cotisation_annee = array();
-			  foreach($membre->getCotisations() as $cotisation)
-				$cotisation_annee[] = $cotisation->__toString();
-			  echo implode(',', $cotisation_annee) ?>
-			</td>
-			<th>Quittances</th>
-			<td>
-			  <?php 
-			  $quittance_annee = array();
-			  foreach($membre->getQuittances() as $quittance)
-				$quittance_annee[] = $quittance->__toString();
-			  echo implode(',', $quittance_annee) ?>
-			</td>
-		  </tr>
-		</tbody>
-	  </table>
-	</div>
+  <div id='annuaire.show.tableauID'>
+    
+    <?php echo image_tag('/uploads/annuaire/' . $membre->getPhoto(), array('style' => 'float: left; margin: 10px;')); ?>
+    
+    <table>
+    <tbody>
+      <tr>
+      <th>Login</th>
+      <td><?php echo $membre->getUsername() ?></td>
+      <th>Numéro étudiant</th>
+      <td><?php echo $membre->getNumeroEtudiant() ?></td>
+      </tr>
+      <tr>
+      <th>Nom</th>
+      <td><?php echo $membre->getNom() ?></td>
+      <th>Poste</th>
+      <td><?php echo $membre->getPoste() ?></td>
+      </tr>
+      <tr>
+      <th>Prenom</th>
+      <td><?php echo $membre->getPrenom() ?></td>
+      <th>Filière</th>
+      <td class='<?php echo getClass($membre->getFiliere()) ?>'><?php echo $membre->getFiliere() ?></td>
+      </tr>
+      <tr>
+      <th>Adresse locale</th>
+      <td><?php echo nl2br($membre->getAdresseMulhouse()) ?><br/>
+        <?php echo $membre->getCpMulhouse() ?><br/>
+        <?php echo $membre->getVilleMulhouse() ?>
+      </td>
+      <th>Adresse des parents</th>
+      <td><?php echo nl2br($membre->getAdresseParents()) ?><br/>
+        <?php echo $membre->getCpParents() ?><br/>
+        <?php echo $membre->getVilleParents() ?>
+      </td>
+      </tr>
+      <tr>
+      <th>Sexe</th>
+      <td><?php echo $membre->getSexe() ?></td>
+      <th>Téléphone portable</th>
+      <td><?php echo $membre->getTelMobile() ?></td>
+      </tr>
+      <tr>
+      <th>Date de naissance</th>
+      <td><?php echo format_date($membre->getDateNaissance()) ?></td>
+      <th>Téléphone fixe</th>
+      <td><?php echo $membre->getTelFixe() ?></td>
+      </tr>
+      <tr>
+      <th>Ville de naissance</th>
+      <td><?php echo $membre->getVilleNaissance() ?></td>
+      <th>Email IARISS</th>
+      <td><?php echo $membre->getEmailInterne() ?></td>
+      </tr>
+      <tr>
+      <th>Numero de sécu</th>
+      <td><?php echo $membre->getNumeroSecu() ?></td>
+      <th>Email externe</th>
+      <td><?php echo $membre->getEmailExterne() ?></td>
+      </tr>
+      <tr>
+      <th>Status pour l'annuaire</th>
+      <td><?php echo $membre->getStatus() ?></td>
+      <th>Promotion</th>
+      <td><?php echo $membre->getPromo() ?></td>
+      </tr>
+      <tr>
+      <th>Fiche crée le</th>
+      <td><?php echo format_date($membre->getCreatedAt()) ?></td>
+      <th>Dernière mise à jour le</th>
+      <td><?php echo format_date($membre->getUpdatedAt()) ?></td>
+      </tr>
+      <tr>
+      <th>Cotisations</th>
+      <td>
+        <?php 
+        $cotisation_annee = array();
+        foreach($membre->getCotisations() as $cotisation)
+        $cotisation_annee[] = $cotisation->__toString();
+        echo implode(',', $cotisation_annee) ?>
+      </td>
+      <th>Quittances</th>
+      <td>
+        <?php 
+        $quittance_annee = array();
+        foreach($membre->getQuittances() as $quittance)
+        $quittance_annee[] = $quittance->__toString();
+        echo implode(',', $quittance_annee) ?>
+      </td>
+      </tr>
+    </tbody>
+    </table>
+  </div>
 
-	<?php
-	$carteID = $membre->getCarteID();
-	$justif= $membre->getJustDomicile();
-	$quittance = $membre->getCurrentQuittance();
-	$cotis = $membre->getCurrentCotisation();
-	$RI = $membre->getReglementInterieur();
-	$CE = $membre->getConventionEtudiant();
-	?>
+  <?php
+  $carteID = $membre->getCarteID();
+  $justif= $membre->getJustDomicile();
+  $quittance = $membre->getCurrentQuittance();
+  $cotis = $membre->getCurrentCotisation();
+  $RI = $membre->getReglementInterieur();
+  $CE = $membre->getConventionEtudiant();
+  ?>
 
-	<?php if(!$user->isAncien()): ?>
-	<br />
+  <?php if(!$user->isAncien()): ?>
+  <br />
 
-	<div id='annuaire.show.tableauDocument'>
-	  <table>
-		<thead>
-		  <tr>
-			<th>Pièce d'identité</th>
-			<th>Justificatif de domicile</th>
-			<th>Quittance</th>
-			<th>Cotisation</th>
-			<th>Règlement intérieur &amp; statuts</th>
-			<th>Convention étudiant</th>
-		  </tr>
-		</thead>
-		<tbody>
-		  <tr>
-			<td class='<?php echo $carteID? 'vert' : 'rouge' ?>'><?php echo $carteID? 'oui' : 'non' ?></td>
-			<td class='<?php echo $justif? 'vert' : 'rouge' ?>'><?php echo $justif? 'oui' : 'non' ?></td>
-			<td class='<?php echo $quittance? 'vert' : 'rouge' ?>'><?php echo $quittance? 'oui' : 'non' ?></td>
-			<td class='<?php echo $cotis? 'vert' : 'rouge' ?>'><?php echo $cotis? 'oui' : 'non' ?></td>
-			<td class='<?php echo $RI? 'vert' : 'rouge' ?>'><?php echo $RI? 'oui' : 'non' ?></td>
-			<td class='<?php echo $CE? 'vert' : 'rouge' ?>'><?php echo $CE? 'oui' : 'non' ?></td>
-		  </tr>
-		  <?php if($user->isAdmin()): ?>
-		  <tr>
-			<td><?php if($carteID) echo link_to('dévalider', '@annuaire?action=show&id='.$membre->getId().'&devalider=CarteID');
-				  else echo link_to('valider', '@annuaire?action=show&id='.$membre->getId().'&valider=CarteID'); ?></td>
-			<td><?php if($justif) echo link_to('dévalider', '@annuaire?action=show&id='.$membre->getId().'&devalider=JustDomicile');
-				  else echo link_to('valider', '@annuaire?action=show&id='.$membre->getId().'&valider=JustDomicile'); ?></td>
-			<td><?php if($quittance) echo link_to('dévalider', '@annuaire?action=show&id='.$membre->getId().'&devalider=Quittance');
-				  else echo link_to('valider', '@annuaire?action=show&id='.$membre->getId().'&valider=Quittance'); ?></td>
-			<td><?php if($cotis) echo link_to('dévalider', '@annuaire?action=show&id='.$membre->getId().'&devalider=Cotisation');
-				  else echo link_to('valider', '@annuaire?action=show&id='.$membre->getId().'&valider=Cotisation'); ?></td>
-			<td><?php if($RI) echo link_to('dévalider', '@annuaire?action=show&id='.$membre->getId().'&devalider=RI');
-				  else echo link_to('valider', '@annuaire?action=show&id='.$membre->getId().'&valider=RI'); ?></td>
-			<td><?php if($CE) echo link_to('dévalider', '@annuaire?action=show&id='.$membre->getId().'&devalider=CE');
-				  else echo link_to('valider', '@annuaire?action=show&id='.$membre->getId().'&valider=CE'); ?></td>
-		  </tr>
-		  <?php endif ?>
-		</tbody>
-	  </table>
-	</div>
-	<?php endif ?>
+  <div id='annuaire.show.tableauDocument'>
+    <table>
+    <thead>
+      <tr>
+      <th>Pièce d'identité</th>
+      <th>Justificatif de domicile</th>
+      <th>Quittance</th>
+      <th>Cotisation</th>
+      <th>Règlement intérieur &amp; statuts</th>
+      <th>Convention étudiant</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+      <td class='<?php echo $carteID? 'vert' : 'rouge' ?>'><?php echo $carteID? 'oui' : 'non' ?></td>
+      <td class='<?php echo $justif? 'vert' : 'rouge' ?>'><?php echo $justif? 'oui' : 'non' ?></td>
+      <td class='<?php echo $quittance? 'vert' : 'rouge' ?>'><?php echo $quittance? 'oui' : 'non' ?></td>
+      <td class='<?php echo $cotis? 'vert' : 'rouge' ?>'><?php echo $cotis? 'oui' : 'non' ?></td>
+      <td class='<?php echo $RI? 'vert' : 'rouge' ?>'><?php echo $RI? 'oui' : 'non' ?></td>
+      <td class='<?php echo $CE? 'vert' : 'rouge' ?>'><?php echo $CE? 'oui' : 'non' ?></td>
+      </tr>
+      <?php if($user->isAdmin()): ?>
+      <tr>
+      <td><?php if($carteID) echo link_to('dévalider', '@annuaire?action=show&id='.$membre->getId().'&devalider=CarteID');
+          else echo link_to('valider', '@annuaire?action=show&id='.$membre->getId().'&valider=CarteID'); ?></td>
+      <td><?php if($justif) echo link_to('dévalider', '@annuaire?action=show&id='.$membre->getId().'&devalider=JustDomicile');
+          else echo link_to('valider', '@annuaire?action=show&id='.$membre->getId().'&valider=JustDomicile'); ?></td>
+      <td><?php if($quittance) echo link_to('dévalider', '@annuaire?action=show&id='.$membre->getId().'&devalider=Quittance');
+          else echo link_to('valider', '@annuaire?action=show&id='.$membre->getId().'&valider=Quittance'); ?></td>
+      <td><?php if($cotis) echo link_to('dévalider', '@annuaire?action=show&id='.$membre->getId().'&devalider=Cotisation');
+          else echo link_to('valider', '@annuaire?action=show&id='.$membre->getId().'&valider=Cotisation'); ?></td>
+      <td><?php if($RI) echo link_to('dévalider', '@annuaire?action=show&id='.$membre->getId().'&devalider=RI');
+          else echo link_to('valider', '@annuaire?action=show&id='.$membre->getId().'&valider=RI'); ?></td>
+      <td><?php if($CE) echo link_to('dévalider', '@annuaire?action=show&id='.$membre->getId().'&devalider=CE');
+          else echo link_to('valider', '@annuaire?action=show&id='.$membre->getId().'&valider=CE'); ?></td>
+      </tr>
+      <?php endif ?>
+    </tbody>
+    </table>
+  </div>
+  <?php endif ?>
 </article>
 
 
-	<article>
-		<header>
-			<h1>Mes projets</h1>
-		</header>
-		<table>
-			<thead>
-				<tr>
-					<th>Projet</th>
-					<th>Date</th>
-					<th>Etat</th>
-					<th>Qualité</th>
-					<th>JEH</th>
-				</tr>
-			</thead>
-		</table>
-		<p>
-			En cours de développement
-		</p>
-	</article>
+<article>
+    <header>
+      <h1>Mes projets</h1>
+    </header>
+    <table>
+      <thead>
+        <tr>
+          <th>Projet</th>
+          <th>Date</th>
+          <th>Etat</th>
+          <th>Qualité</th>
+          <th>JEH</th>
+        </tr>
+      </thead>
+    </table>
+    <p>
+      En cours de développement
+    </p>
+</article>

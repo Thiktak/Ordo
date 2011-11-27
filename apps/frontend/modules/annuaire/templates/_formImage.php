@@ -6,8 +6,8 @@
     <tbody>
       <?php echo $form ?>
       <tr>
-		<th>Aperçu :</th>
-		<td><?php echo image_tag('/uploads/annuaire/' . $form->getObject()->getPhoto(), array('style' => 'border: 2px solid black;')); ?></td>
+    <th>Aperçu :</th>
+    <td><?php echo image_tag('/uploads/annuaire/' . $form->getObject()->getPhoto(), array('style' => 'border: 2px solid black;')); ?></td>
       </tr>
     </tbody>
     <tfoot>

@@ -20,40 +20,40 @@ function getClass($filiere)
 }
 ?>
 <article>
-	<header>
-		<h1>Liste des membres (<?php echo count($membres); ?>)</h1>
-		<aside>
-			<ul>
-				<li><?php echo filter_link_to('Membres',   '@annuaire', array($sf_request, 'membre')); ?></li>
-				<li><?php echo filter_link_to('Anciens',   '@annuaire', array($sf_request, 'ancien')); ?></li>
-				<li><?php echo link_to('Ajouter un membre', '@annuaire?action=new', array('class'  => 'actionnew')) ?></li>
-			</ul>
-		</aside>
-	</header>
+  <header>
+    <h1>Liste des membres (<?php echo count($membres); ?>)</h1>
+    <aside>
+      <ul>
+        <li><?php echo filter_link_to('Membres',   '@annuaire', array($sf_request, 'membre')); ?></li>
+        <li><?php echo filter_link_to('Anciens',   '@annuaire', array($sf_request, 'ancien')); ?></li>
+        <li><?php echo link_to('Ajouter un membre', '@annuaire?action=new', array('class'  => 'actionnew')) ?></li>
+      </ul>
+    </aside>
+  </header>
 
-	<table>
-	  <thead>
-		<tr>
-		  <th>Nom</th>
-		  <th>Poste</th>
-		  <th>Téléphone</th>
-		  <th>Email</th>
-		  <th>Promo</th>
-		  <th>Filière</th>
-		</tr>
-	  </thead>
-	  <tbody>
-		<?php foreach ($membres as $membre): ?>
-		<tr class='<?php echo $membre->getStatus() ?>'>
-		  <td><?php if($user->isAdmin() || $membre->getId() == $user->getId()) echo link_to($membre, '@annuaire?action=show&id='.$membre->getId());
-					else echo $membre->getPrenom().' '.$membre->getNom(); ?></td>
-		  <td><?php echo $membre->getPoste() ?></td>
-		  <td><?php echo $membre->getTelMobile() ?></td>
-		  <td><?php echo mail_to($membre->getEmailInterne()) ?></td>
-		  <td><?php echo $membre->getPromo() ?></td>
-		  <td class='<?php echo getClass($membre->getFiliere()) ?>'><?php echo $membre->getFiliere() ?></td>
-		</tr>
-		<?php endforeach; ?>
-	  </tbody>
-	</table>
+  <table>
+    <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Poste</th>
+      <th>Téléphone</th>
+      <th>Email</th>
+      <th>Promo</th>
+      <th>Filière</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($membres as $membre): ?>
+    <tr class='<?php echo $membre->getStatus() ?>'>
+      <td><?php if($user->isAdmin() || $membre->getId() == $user->getId()) echo link_to($membre, '@annuaire?action=show&id='.$membre->getId());
+          else echo $membre->getPrenom().' '.$membre->getNom(); ?></td>
+      <td><?php echo $membre->getPoste() ?></td>
+      <td><?php echo $membre->getTelMobile() ?></td>
+      <td><?php echo mail_to($membre->getEmailInterne()) ?></td>
+      <td><?php echo $membre->getPromo() ?></td>
+      <td class='<?php echo getClass($membre->getFiliere()) ?>'><?php echo $membre->getFiliere() ?></td>
+    </tr>
+    <?php endforeach; ?>
+    </tbody>
+  </table>
 </article>

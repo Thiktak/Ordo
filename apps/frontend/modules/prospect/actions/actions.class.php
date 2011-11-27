@@ -29,17 +29,17 @@ class prospectActions extends sfActions
     // Cas du filtre 'MY'
     $filter->add('my', function() use($query, $ID)
     {
-		$query->leftJoin('p.Contacts c')
-              ->leftJoin('c.Membre m')
-              ->AndWhere('m.id = ?', $ID)
-              ->groupBy('p.nom');
+      $query->leftJoin('p.Contacts c')
+            ->leftJoin('c.Membre m')
+            ->AndWhere('m.id = ?', $ID)
+            ->groupBy('p.nom');
     });
     
     // Cas du filtre 'RECONTACT'
     $filter->add('recontact', function() use($query)
     {
         $query->AndWhere('p.a_rappeler = 1');
-	});
+    });
     
     $filter->execute();
     

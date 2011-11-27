@@ -37,6 +37,8 @@
  * @property Doctrine_Collection $LiensMembreProjet
  * @property Doctrine_Collection $Cotisations
  * @property Doctrine_Collection $Quittances
+ * @property Doctrine_Collection $Event
+ * @property Doctrine_Collection $EventInvites
  * @property Doctrine_Collection $Contact
  * @property Doctrine_Collection $ProjetEvent
  * @property Doctrine_Collection $ProjetEventCom
@@ -73,6 +75,8 @@
  * @method Doctrine_Collection getLiensMembreProjet()   Returns the current record's "LiensMembreProjet" collection
  * @method Doctrine_Collection getCotisations()         Returns the current record's "Cotisations" collection
  * @method Doctrine_Collection getQuittances()          Returns the current record's "Quittances" collection
+ * @method Doctrine_Collection getEvent()               Returns the current record's "Event" collection
+ * @method Doctrine_Collection getEventInvites()        Returns the current record's "EventInvites" collection
  * @method Doctrine_Collection getContact()             Returns the current record's "Contact" collection
  * @method Doctrine_Collection getProjetEvent()         Returns the current record's "ProjetEvent" collection
  * @method Doctrine_Collection getProjetEventCom()      Returns the current record's "ProjetEventCom" collection
@@ -108,6 +112,8 @@
  * @method Membre              setLiensMembreProjet()   Sets the current record's "LiensMembreProjet" collection
  * @method Membre              setCotisations()         Sets the current record's "Cotisations" collection
  * @method Membre              setQuittances()          Sets the current record's "Quittances" collection
+ * @method Membre              setEvent()               Sets the current record's "Event" collection
+ * @method Membre              setEventInvites()        Sets the current record's "EventInvites" collection
  * @method Membre              setContact()             Sets the current record's "Contact" collection
  * @method Membre              setProjetEvent()         Sets the current record's "ProjetEvent" collection
  * @method Membre              setProjetEventCom()      Sets the current record's "ProjetEventCom" collection
@@ -283,6 +289,14 @@ abstract class BaseMembre extends sfDoctrineRecord
              'foreign' => 'membre_id'));
 
         $this->hasMany('Quittance as Quittances', array(
+             'local' => 'id',
+             'foreign' => 'membre_id'));
+
+        $this->hasMany('Event', array(
+             'local' => 'id',
+             'foreign' => 'membre_id'));
+
+        $this->hasMany('EventInvites', array(
              'local' => 'id',
              'foreign' => 'membre_id'));
 
