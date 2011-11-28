@@ -108,6 +108,8 @@
         <span>Autre</span>
         <ul>
           <li><?php echo link_to('Statistiques', '@stats'); ?></li>
+          <li><?php echo link_to('Agenda', '@agenda'); ?></li>
+          <li><?php echo link_to('TodoList', '@agenda?action=todo'); ?></li>
         </ul>
         <?php endif ?>
         </ul>
