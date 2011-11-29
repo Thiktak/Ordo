@@ -32,7 +32,15 @@ class annuaireActions extends sfActions
     $this->membre = Doctrine_Core::getTable('Membre')->find(array($request->getParameter('id')));
     $this->forward404Unless($this->membre);
     $this->forward404Unless($this->user->isAdmin() || ($this->user == $this->membre));
-
+    $this->mesProjets = Doctrine_Core::getTable('Projet')
+      ->createQuery('a')
+      ->select('a.id, a.nom, a.numero, a.date_debut, a.date_cloture, l.id, m.id, l.jeh as jeh, l.role as role')
+      ->leftJoin('a.LienMembreProjet as l')
+      ->leftJoin('l.Membre as m')
+      ->where('l.membre_id = ?', $request->getParameter('id'))
+      ->orderBy('a.numero DESC')
+      ->execute();
+    
     if($this->user->isAdmin())
     {
       if($request->getParameter('valider'))

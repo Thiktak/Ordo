@@ -50,30 +50,6 @@ function getClass($filiere)
     </aside>
   </header>
 
-  <style>
-    .page-annuaire-index figure { /*position: absolute; top: 50px; left: 10px;*/ float: left; width: 200px; text-align: center; }
-    .page-annuaire-index figure img { max-width: 100px; max-height: 150px; margin: 10px; }
-    .page-annuaire-index figure figcaption > * { background-color: #eaeaea; display: block; padding: 5px; margin: 10px; }
-    
-    .page-annuaire-index .vcard { /*position: absolute; top: 50px; left: 220px; right: 250px;*/ margin: 0 250px; margin-left: 220px; background-color: #f5f5f5; box-shadow: 0 0 5px #eaeaea; padding: 2em; }
-    .page-annuaire-index .vcard h2 { font-size: 1.5em; margin-bottom: 1em; }
-    
-    .page-annuaire-index .other { /*position: absolute; top: 50px;*/ float: right; width: 220px; right: 10px; }
-    .page-annuaire-index .other dt { margin-top: 10px; color: Gray; }
-    .page-annuaire-index .other dd { text-align: right; }
-    
-    
-    
-    .page-annuaire-index .vcard dt { display: inline-block; margin: .5%; padding: .5%; width: 20%; vertical-align: top; text-align: right; color: Gray; }
-    .page-annuaire-index .vcard dd { display: inline-block; margin: .5%; padding: .5%; padding-left: 1%; width: 70%; min-height: 1em; border-left: 4px solid White; }
-    .page-annuaire-index .vcard dd:hover { background-color: White; border-color: #eaeaea; }
-    .page-annuaire-index .list { display: block; }
-    
-    span.datas:empty { background-color: rgba(150, 150, 150, .1); display: inline-block; margin: 1px 2px; width: 100px; height: 1em; padding: 0 2px; }
-    .isAdmin, .isAdmin * { color: Orange; font-weight: bold; }
-    .clear { clear: both; height: 0; }
-  </style>
-
   <div id='annuaire.show.tableauID'>
     
     <figure>
@@ -228,7 +204,7 @@ function getClass($filiere)
 </article>
 
 
-<article>
+<article class="box box-2">
     <header>
       <h1>Mes projets</h1>
     </header>
@@ -238,10 +214,26 @@ function getClass($filiere)
           <th>Projet</th>
           <th>Date</th>
           <th>Etat</th>
-          <th>Qualité</th>
-          <th>JEH</th>
+          <th>Rôle/JEH</th>
         </tr>
       </thead>
+      <tbody>
+      <?php foreach( $mesProjets as $projet ): ?>
+        <tr>
+          <td><?php echo link_to($projet, '@projet?action+show&id=' . $projet->getId()); ?></td>
+          <td>
+            <?php echo format_date($projet->getDateDebut()); ?> - <?php echo format_date($projet->getDateCloture()); ?>
+          </td>
+          <td>
+            <?php echo $projet->getQualite(); ?>/10 - <?php echo $projet->getAvancement(); ?>%
+          </td>
+          <td>
+            <?php echo $projet->getRole(); ?>
+            (<?php echo $projet->getJeh(); ?> JEH)
+          </td>
+        </tr>
+      <?php endforeach; ?>
+      </tbody>
     </table>
     <p>
       En cours de développement
