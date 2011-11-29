@@ -12,7 +12,7 @@ default:
     language:     fr
     #robots:       index, follow
 
-  stylesheets:    [main3.css]
+  stylesheets:    [main3.css, css-dev.css]
 
   javascripts:    [jquery.1-7.min.js]
 

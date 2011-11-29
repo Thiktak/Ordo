@@ -61,6 +61,8 @@ a:hover { color: DarkRed; }
   #contenu header aside li a.active { background-color: White; }
   #contenu header aside li a.filter { background-color: DarkBlue; }
 
+
+form td li { list-style-type: none; }
 table { width: 100%; border-collapse: collapse; }
 thead { background-color: #d0d0d0; }
 thead th { padding: 5px; border: 1px solid White; }
