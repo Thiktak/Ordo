@@ -21,22 +21,22 @@ class projetActions extends sfActions
       
     // Filtres pour les projets
     $filter = new FilterHelper($request);
-    $filter->add('project', function() use($projets) {
-    $projets->orWhere('a.deleted_at IS NULL AND a.date_debut IS NULL AND a.date_cloture IS NULL');
-  });
+      $filter->add('project', function() use($projets) {
+      $projets->orWhere('a.deleted_at IS NULL AND a.date_debut IS NULL AND a.date_cloture IS NULL');
+    });
     $filter->add('progress', function() use($projets) {
-    $projets->orWhere('a.deleted_at IS NULL AND (a.date_debut IS NOT NULL) AND a.date_cloture IS NULL');
-  });
+      $projets->orWhere('a.deleted_at IS NULL AND (a.date_debut IS NOT NULL) AND a.date_cloture IS NULL');
+    });
     $filter->add('end', function() use($projets) {
-    $projets->orWhere('a.deleted_at IS NULL AND a.date_cloture IS NOT NULL');
-  });
+      $projets->orWhere('a.deleted_at IS NULL AND a.date_cloture IS NOT NULL');
+    });
     $filter->add('canceled', function() use($projets) {
-    $projets->orWhere('a.deleted_at IS NOT NULL');
-  });
+      $projets->orWhere('a.deleted_at IS NOT NULL');
+    });
     $filter->add('default', function() use($projets) {
-    $projets->orWhere('a.deleted_at IS NULL AND a.date_debut IS NOT NULL AND a.date_cloture IS NULL');
-  });
-  $filter->execute();
+      $projets->orWhere('a.deleted_at IS NULL AND a.date_debut IS NOT NULL AND a.date_cloture IS NULL');
+    });
+    $filter->execute();
     
     $this->projets = $projets->execute();
   }
@@ -44,6 +44,7 @@ class projetActions extends sfActions
   public function executeShow(sfWebRequest $request)
   {
     $this->forward404Unless($this->user = Membre::getProfile($_SERVER['PHP_AUTH_USER']));
+    
     // On récupère le projet selectionné
     $this->projet = Doctrine_Core::getTable('Projet')
       ->createQuery('a')
@@ -51,13 +52,15 @@ class projetActions extends sfActions
       ->leftJoin('a.Prospect p')
       ->where('a.id = ?', array($request->getParameter('id')))
       ->execute()->getFirst();
-
     $this->forward404Unless($this->projet);
+    
+    // On met à jours les données
+    $this->projet->getMajEtatEtAvancement(1);
 
     $this->participations = $this->projet->getParticipations();
     $this->respo = $this->projet->getRespo();
 
-  // On récupère les différents 'types' de fichier (AP, OM, ...)
+    // On récupère les différents 'types' de fichier (AP, OM, ...)
     $ProjetEventType = Doctrine_Core::getTable('ProjetEventType')
     ->createQuery('p')
     ->select('p.abreviation, p.description')
@@ -67,7 +70,7 @@ class projetActions extends sfActions
     ->execute();
     
     // ... et ceux déjà en relation avec le projet
-    $events = Doctrine_Core::getTable('ProjetEvent')
+    $this->listEvents = $events = Doctrine_Core::getTable('ProjetEvent')
       ->createQuery('e')
       ->select('e.commentaire, e.url, e.date, e.updated_at, t.abreviation as abreviation, t.obligatoire as obligatoire, t.description as description, m.id, m.nom, m.prenom, m.username')
       ->leftJoin('e.ProjetEventType t')
@@ -76,9 +79,6 @@ class projetActions extends sfActions
       ->where('e.projet_id = ?', array($request->getParameter('id')))
       ->orderBy('e.date DESC')
       ->execute();
-    
-    
-    $this->listEvents = $events;
     
     
     $aStats     = array();
@@ -97,87 +97,48 @@ class projetActions extends sfActions
     // Ensuite, on regarde en détail ce qui à été fait
     foreach( $events as $event )
     {
-    // Si l'objet est un Commentaire ou un Devis
-    if( is_null($event->getAbreviation()) )
-      continue;
-    
-    // Si il n'existe pas déjà dans la StepLine, on l'ajoute à blanc
-    if( !isset($aTimeLine2[$event->getAbreviation()]) )
-      $aTimeLine2[$event->getAbreviation()] = array(
-        'descr'  => $event->getDescription(),
-        'childs' => array(),
-        'need'   => 1,
-        'pts'    => $event->getObligatoire()+1, // pondération
-      );
-    
-    $st = null;
-    
-    if( ($com = $event->getProjetEventCom()) && count($com) )
-    {
-      $st = $com[0]->getStatut();
+      // Si l'objet est un Commentaire ou un Devis
+      if( is_null($event->getAbreviation()) )
+        continue;
+      
+      // Si il n'existe pas déjà dans la StepLine, on l'ajoute à blanc
+      if( !isset($aTimeLine2[$event->getAbreviation()]) )
+        $aTimeLine2[$event->getAbreviation()] = array(
+          'descr'  => $event->getDescription(),
+          'childs' => array(),
+          'need'   => 1,
+          'pts'    => $event->getObligatoire()+1, // pondération
+        );
+      
+      $st = null;      
+      if( ($com = $event->getProjetEventCom()) && count($com) )
+        $st = $com[0]->getStatut();
+      
+      // On ajoute le document, avec les informations utiles (note Qualité+avancement)
+      $aTimeLine2[$event->getAbreviation()]['childs'][$event->getId()] = array('statut' => 0 + $st);
     }
-    
-    // On ajoute le document, avec les informations utiles (note Qualité+avancement)
-    $aTimeLine2[$event->getAbreviation()]['childs'][$event->getId()] = array('statut' => 0 + $st);
-  }
   
-  // Ici, on augmente la pondération et le nombre de fichier nécéssaire pour chaque document
-  //   càd pour chaque intervenant (par exemple), on ajoute un OM et un BV 
-  $aTimeLine2['OM']['need']  = count($this->participations);
-  $aTimeLine2['OM']['pts']  *= count($this->participations);
-  $aTimeLine2['BV']['need']  = count($this->participations);
-  $aTimeLine2['BV']['pts']  *= count($this->participations);
-  
-  
-  // On reparcourt les données pour faire les stats
-  foreach( $aTimeLine2 as $key => $values )
-  {
+    // Ici, on augmente la pondération et le nombre de fichier nécéssaire pour chaque document
+    //   càd pour chaque intervenant (par exemple), on ajoute un OM et un BV 
+    $aTimeLine2['OM']['need']  = count($this->participations);
+    $aTimeLine2['BV']['need']  = count($this->participations); 
     
-    $need = 0;
-    // On vérifie que l'on à tous les blocs
-    if( isset($values['need']) && ($need = $values['need']) && ($n = count($values['childs'])) < $values['need'] )
-      for( $i = 0 ; $i < $values['need']-$n ; $i++ )
-        $aTimeLine2[$key]['childs'][] = array('statut' => null);
-        
-    // Stats Qualité
-    $sumQ = array();
-    $sumA = array();
-    foreach( $values['childs'] as $child )
+    // On reparcourt les données pour faire les stats
+    foreach( $aTimeLine2 as $key => $values )
     {
-      $sumQ[] = ($child['statut']*99/100+.01);
-      $sumA[] = ($child['statut']*2/10+.8)*$values['pts'];
+      
+      $need = 0;
+      // On vérifie que l'on à tous les blocs
+      if( isset($values['need']) && ($need = $values['need']) && ($n = count($values['childs'])) < $values['need'] )
+        for( $i = 0 ; $i < $values['need']-$n ; $i++ )
+          $aTimeLine2[$key]['childs'][] = array('statut' => null);
+          
     }
-    
-    $aTimeLine2[$key]['QUALITE'] = count($sumQ) ? array_product($sumQ) : null;
-    $aTimeLine2[$key]['AVANCEE'] = count($sumA) ? array_sum($sumA)/count($sumA) : 0;
-  }
-    
-    
-    // On fait les statistiques globaux
-    $QUALITE = array();
-    $AVANCEE = array();
-    foreach( $aTimeLine2 as $values )
-    {
-    if( $values['QUALITE'] )
-    {
-      $QUALITE[0][] = $values['QUALITE']*$values['pts'];
-      $QUALITE[1][] = $values['pts'];
-    }
-    
-    $AVANCEE[0][] = $values['AVANCEE'];
-    $AVANCEE[1][] = $values['pts'];
-    }
-    
     // On retourne les stats et les informations
-  $this->timeLine2 = $aTimeLine2;
-    $this->qualite = round(array_sum($QUALITE[0])/array_sum($QUALITE[1]), 3);
-    $this->avancee = round(array_sum($AVANCEE[0])/array_sum($AVANCEE[1]), 4);
+    $this->timeLine2 = $aTimeLine2;
     
-    
-    // Sauvegarde
-    $this->projet->setAvancement($this->avancee*100);
-    $this->projet->setQualite($this->qualite*10);
-    $this->projet->save();
+    $this->qualite = $this->projet->getQualite();
+    $this->avancee = $this->projet->getAvancement();
   }
 
   public function executeDocument(sfWebRequest $request)

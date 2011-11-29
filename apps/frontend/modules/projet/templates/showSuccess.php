@@ -72,9 +72,9 @@
   <div id="projet-equip">
     
     <div style="text-align: center">
-      <p style="font-size: 3em;"><?php echo $qualite*10; ?><sub style="opacity: .2; font-size: .75em;">/<sub>10</sub></sub></p>
+      <p style="font-size: 3em;"><?php echo $qualite; ?><sub style="opacity: .2; font-size: .75em;">/<sub>10</sub></sub></p>
       <br />
-      <p style="font-size: 3em;"><?php echo $avancee*100; ?>%</p>
+      <p style="font-size: 3em;"><?php echo $avancee; ?>%</p>
     </div>
     
     <hr />

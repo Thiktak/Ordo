@@ -53,4 +53,138 @@ class Projet extends BaseProjet
 		->fetchOne();
 	  // */
   }
+  
+  function getMajEtatEtAvancement($id)
+  {
+    // On récupère le projet concerné
+    $projet = Doctrine_Core::getTable('Projet')
+      ->createQuery('a')
+      ->select('a.id, a.nom, a.numero, a.budget, a.commentaire, a.date_debut, a.date_cloture, a.delai_realisation, p.nom, p.id')
+      ->leftJoin('a.Prospect p')
+      ->where('a.id = ?', $id)
+      ->execute()->getFirst();
+
+    // On récupère les différents 'types' de fichier (AP, OM, ...)
+    $ProjetEventType = Doctrine_Core::getTable('ProjetEventType')
+      ->createQuery('p')
+      ->select('p.abreviation, p.description')
+      ->where('p.abreviation IS NOT NULL')
+      ->andWhere('p.obligatoire IS NOT NULL')
+      ->orderBy('ordre')
+      ->execute();
+      
+    // ... et ceux déjà en relation avec le projet
+    $events = Doctrine_Core::getTable('ProjetEvent')
+      ->createQuery('e')
+      ->select('e.commentaire, e.url, e.date, e.updated_at, t.abreviation as abreviation, t.obligatoire as obligatoire, t.description as description, m.id, m.nom, m.prenom, m.username')
+      ->leftJoin('e.ProjetEventType t')
+      ->leftJoin('e.ProjetEventCom c')
+      ->leftJoin('e.Membre m')
+      ->where('e.projet_id = ?', $id)
+      ->orderBy('e.date DESC')
+      ->execute();
+    
+    $aTimeLine2 = array();
+    
+    // On crée la StepLine en commencant par remplir ce qui est obligatoire (AP + s, COC + s, ..., AFM, BV) 
+    foreach( $ProjetEventType as $type )
+      if( !is_null($type->getAbreviation()) )
+        $aTimeLine2[$type->getAbreviation()] = array(
+          'childs' => array(),
+          'need'   => 1,
+          'pts'    => $type->getObligatoire()*1+1, // pondération
+        );
+    
+      // Ensuite, on regarde en détail ce qui à été fait
+      foreach( $events as $event )
+      {
+      // Si l'objet est un Commentaire ou un Devis
+      if( is_null($event->getAbreviation()) )
+        continue;
+      
+      // Si il n'existe pas déjà dans la StepLine, on l'ajoute à blanc
+      if( !isset($aTimeLine2[$event->getAbreviation()]) )
+        $aTimeLine2[$event->getAbreviation()] = array(
+          'descr'  => $event->getDescription(),
+          'childs' => array(),
+          'need'   => 1,
+          'pts'    => $event->getObligatoire()+1, // pondération
+        );
+      
+      $st = null;
+      
+      if( ($com = $event->getProjetEventCom()) && count($com) )
+      {
+        $st = $com[0]->getStatut();
+      }
+      
+      // On ajoute le document, avec les informations utiles (note Qualité+avancement)
+      $aTimeLine2[$event->getAbreviation()]['childs'][$event->getId()] = array('statut' => 0 + $st);
+    }
+  
+    // Ici, on augmente la pondération et le nombre de fichier nécéssaire pour chaque document
+    //   càd pour chaque intervenant (par exemple), on ajoute un OM et un BV 
+    $aTimeLine2['OM']['need']  = count($this->participations);
+    $aTimeLine2['OM']['pts']  *= count($this->participations);
+    $aTimeLine2['BV']['need']  = count($this->participations);
+    $aTimeLine2['BV']['pts']  *= count($this->participations);
+  
+    // On reparcourt les données pour faire les stats
+    foreach( $aTimeLine2 as $key => $values )
+    {
+      
+      $need = 0;
+      // On vérifie que l'on à tous les blocs
+      if( isset($values['need']) && ($need = $values['need']) && ($n = count($values['childs'])) < $values['need'] )
+        for( $i = 0 ; $i < $values['need']-$n ; $i++ )
+          $aTimeLine2[$key]['childs'][] = array('statut' => null);
+          
+      // Stats Qualité
+      $sumQ = array();
+      $sumA = array();
+      foreach( $values['childs'] as $child )
+      {
+        $sumQ[] = ($child['statut']*99/100+.01);
+        $sumA[] = ($child['statut']*2/10+.8)*$values['pts'];
+      }
+      
+      $aTimeLine2[$key]['QUALITE'] = count($sumQ) ? array_product($sumQ) : null;
+      $aTimeLine2[$key]['AVANCEE'] = count($sumA) ? array_sum($sumA)/count($sumA) : 0;
+    }
+    
+    
+    // On fait les statistiques globaux
+    $QUALITE = array();
+    $AVANCEE = array();
+    foreach( $aTimeLine2 as $values )
+    {
+      if( $values['QUALITE'] )
+      {
+        $QUALITE[0][] = $values['QUALITE']*$values['pts'];
+        $QUALITE[1][] = $values['pts'];
+      }
+    
+      $AVANCEE[0][] = $values['AVANCEE'];
+      $AVANCEE[1][] = $values['pts'];
+    }
+    
+    print_r($QUALITE);
+    
+    $qualite = round(array_sum($QUALITE[0])/array_sum($QUALITE[1]), 3);
+    $avancee = round(array_sum($AVANCEE[0])/array_sum($AVANCEE[1]), 4);
+    
+    
+    //print_r($aTimeLine2);
+    
+    $this->setQualite($qualite*10);
+    $this->setAvancement($avancee*100);
+    $this->save();
+    
+    // Sauvegarde
+    //$this->setAvancement($avancee*100);
+    //$this->setQualite($qualite*10);
+    //$this->save();
+    
+    return array('qualite' => $qualite, 'avancement' => $avancee);
+  }
 }
