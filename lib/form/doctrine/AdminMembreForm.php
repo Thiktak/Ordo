@@ -19,7 +19,8 @@ class AdminMembreForm extends MembreForm
       $this['carte_ID'],
       $this['just_domicile'],
       $this['reglement_interieur'],
-      $this['convention_etudiant']
+      $this['convention_etudiant'],
+      $this['photo']
       );
 
   }
