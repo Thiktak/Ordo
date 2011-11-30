@@ -1,6 +1,6 @@
 <?php use_helper('Date') ?>
 
-<table class="liste-contact">
+<table class="sort liste-contact">
   <thead>
     <tr>
       <th></th>

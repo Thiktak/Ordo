@@ -129,7 +129,8 @@
             <?php echo link_to($event->getMembre(), '@annuaire?action=show&id=' . $event->getMembre()->getId()); ?>
           </span>
           <span class="reader">
-            <?php echo $event->getMembreread(); ?>
+            <?php if( $event->getMembrereadId() ) echo $event->getMembreread(); 
+                else echo link_to('(pas de responsable)', '@projetevent?action=edit&id=' . $event->getId()); ?>
           </span>
           <p class="comm">
             <?php echo $event->getCommentaire(); ?>
@@ -137,14 +138,16 @@
           <ul class="comm">
             <?php foreach ($event->getProjetEventCom() as $com): ?>
             <?php $statut = $com->getStatut()*10; ?>
-            <li class="etat-com-<?php echo $statut; ?>">
+            <li class="etat-com-<?php echo $statut; ?> <?php echo $statut ? 'isnote' : null; ?>">
               <span class="comm-author"><?php echo format_date($com->getCreatedAt()); ?> - <?php echo link_to($com->getMembre(), '@projeteventcom?action=edit&id=' . $com->getId()); ?></span> :
               <span class="comm-comm"><?php echo $com->getCommentaire(); ?></span>
+              <?php if( $statut ): ?>
               <span class="comm-stat"><?php echo $statut; ?><sub>/<sub>10</sub></sub></span>
+              <?php endif; ?>
             </li>
             <?php endforeach; ?>
           </ul>
-          <?php echo link_to(' ', '@projeteventcom?action=new&event=' . $event->getId(), array('class' => 'actionnew')); ?>
+          <?php echo link_to('Ajouter un commentaire', '@projeteventcom?action=new&event=' . $event->getId(), array('class' => 'actionnew', 'style' => 'font-size: .75em; padding-top: 4px; padding-bottom: 4px; float: right;')); ?>
         </td>
         <td class="ColStatut">
           <?php if( $event->getAbreviation() && $statut ): ?>

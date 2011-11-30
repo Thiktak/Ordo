@@ -1,6 +1,6 @@
 <h1>Projet events List</h1>
 
-<table>
+<table class="sort">
   <thead>
     <tr>
       <th>Id</th>

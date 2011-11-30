@@ -38,6 +38,10 @@
       de
       <?php echo link_to($ev->getProjetEvent()->getProjet(), '@projet?action=show&id=' . $ev->getProjetEvent()->getProjet()->getId()); ?>
       
+      <span style="font-size: .75em;">
+        [relecture: <?php echo $ev->getProjetEvent()->getMembreread()->getId() ? $ev->getProjetEvent()->getMembreread() : '?'; ?>]
+      </span>
+      
       <?php if( !is_null($ev->getStatut()) ): ?>
       <span class="note"><?php echo $ev->getStatut()*10; ?>/10</span>
       <?php endif; ?>
@@ -57,9 +61,9 @@
       à
       <?php echo link_to($ev->getProjet(), '@projet?action=show&id=' . $ev->getProjet()->getId()); ?>
       
-      <?php /*if( !is_null($ev->getStatut()) ): ?>
-      <span class="note"><?php echo $ev->getStatut()*10; ?>/10</span>
-      <?php endif;*/ ?>
+      <span style="font-size: .75em;">
+        [relecture: <?php echo $ev->getProjetEvent()->getMembreread()->getId() ? $ev->getProjetEvent()->getMembreread() : '?'; ?>]
+      </span>
       
       <p>
         <?php echo $ev->getCommentaire(); ?>
@@ -76,9 +80,6 @@
       <?php /*if( !is_null($ev->getStatut()) ): ?>
       <span class="note"><?php echo $ev->getStatut()*10; ?>/10</span>
       <?php endif;*/ ?>
-      
-      <p>
-      </p>
     </li>
     <?php endif; ?>
     

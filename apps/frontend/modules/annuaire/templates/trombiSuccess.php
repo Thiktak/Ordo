@@ -28,7 +28,7 @@
       <?php foreach( $membres as $membre ): ?>
       <li data-filter="<?php echo strtolower($membre->getPoste()); ?>" class="<?php echo strpos($membre->getPoste(), '*') !== false ? 'responsable' : null; ?>">
       <figure title="Tél: <?php echo $membre->getTelMobile(); ?> - Email: <?php echo $membre->getEmailInterne(); ?>">
-        <?php echo image_tag('/uploads/annuaire/' . $membre->getPhoto()); ?>
+        <?php echo $membre->getPhoto() ? image_tag('/uploads/annuaire/' . $membre->getPhoto()) : image_tag('avatar-empty', array('class' => 'empty')); ?>
         <figcaption>
           <a href="<?php echo url_for('@annuaire?action=show&id=' . $membre->getId()); ?>">
             <?php if( $membre->getNom() . $membre->getPrenom() ): ?>

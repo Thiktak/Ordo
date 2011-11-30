@@ -1,2 +1,2 @@
-default:
-  stylesheets: [main3.css, projet.css]
+#default:
+#  stylesheets: [main3.css, projet.css]

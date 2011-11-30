@@ -31,7 +31,7 @@ function getClass($filiere)
     </aside>
   </header>
 
-  <table>
+  <table class="sort">
     <thead>
     <tr>
       <th>Nom</th>
@@ -44,15 +44,15 @@ function getClass($filiere)
     </thead>
     <tbody>
     <?php foreach ($membres as $membre): ?>
-    <tr class='<?php echo $membre->getStatus() ?>'>
-      <td><?php if($user->isAdmin() || $membre->getId() == $user->getId()) echo link_to($membre, '@annuaire?action=show&id='.$membre->getId());
-          else echo $membre->getPrenom().' '.$membre->getNom(); ?></td>
-      <td><?php echo $membre->getPoste() ?></td>
-      <td><?php echo $membre->getTelMobile() ?></td>
-      <td><?php echo mail_to($membre->getEmailInterne()) ?></td>
-      <td><?php echo $membre->getPromo() ?></td>
-      <td class='<?php echo getClass($membre->getFiliere()) ?>'><?php echo $membre->getFiliere() ?></td>
-    </tr>
+      <tr class="<?php echo $membre->getStatus() ?>">
+        <td><?php if($user->isAdmin() || $membre->getId() == $user->getId()) echo link_to($membre, '@annuaire?action=show&id='.$membre->getId());
+            else echo $membre->getPrenom().' '.$membre->getNom(); ?></td>
+        <td class="a-c"><?php echo $membre->getPoste() ?></td>
+        <td class="a-c"><?php echo $membre->getTelMobile() ?></td>
+        <td class="a-c"><?php echo mail_to($membre->getEmailInterne()) ?></td>
+        <td class="a-c"><?php echo $membre->getPromo() ?></td>
+        <td class="<?php echo getClass($membre->getFiliere()) ?>"><?php echo $membre->getFiliere() ?></td>
+      </tr>
     <?php endforeach; ?>
     </tbody>
   </table>

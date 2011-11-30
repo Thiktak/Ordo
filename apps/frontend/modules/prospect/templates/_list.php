@@ -1,4 +1,4 @@
-<table>
+<table class="sort">
   <thead>
     <tr>
       <th>Nom</th>

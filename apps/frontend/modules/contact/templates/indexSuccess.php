@@ -10,7 +10,6 @@ function echoAddLinks($filter)
 }
 
 ?>
-
 <article>
   <header>
     <h1><?php switch($filter)

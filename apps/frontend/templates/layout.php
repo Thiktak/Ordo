@@ -7,33 +7,13 @@
     <link rel="shortcut icon" href="/favicon.ico" />
     <?php include_stylesheets() ?>
     <?php include_javascripts() ?>
-    <script type="text/javascript">
-    $(function() {
-      url1 = window.location.href.replace(location.protocol + '//' + location.host, '');
-      url  = url1.split('/');
-      
-      if( url.length >= 3 )
-        url = url[0] + '/' + url[1] + '/' + url[2];
-      else if( url.length == 2 )
-        url = url[0] + '/' + url[1];
-      else if( url.length == 1 )
-        url = url[0];
-      
-      url = url.replace('/show', '/index');
-      
-      $('nav a[href*="/' + url + '"]').css('text-decoration', 'underline');
-      $('nav a[href*="/' + url1 + '"]').css('text-decoration', 'underline');
-      $('nav a[href ="/' + url + '"]').css('color', 'White');
-      $('nav a[href ="/' + url1 + '"]').css('color', 'White');
-    }).jQuery();
-    </script>
   </head>
   <body>
   <div id="background"></div>
     <div id="global">
     <div id="top">
       <header id="entete">
-        <h1>ERP IARISS</h1>
+        <h1><?php echo link_to('ERP', '@homepage'); ?></h1>
         
         <div id="search">
         <form action="<?php echo url_for('@search'); ?>" method="GET">
@@ -53,6 +33,7 @@
         </div>
       </header>
       
+      <?php if( $user ): ?>
       <nav id="navigation">
         <ul>
         <li><span>Annuaire</span>
@@ -108,10 +89,15 @@
         <span>Autre</span>
         <ul>
           <li><?php echo link_to('Statistiques', '@stats'); ?></li>
+          <!-- --->
+          <li><?php echo link_to('Agenda', '@agenda'); ?></li>
+          <li><?php echo link_to('TodoList', '@agenda?action=todo'); ?></li>
+          <!--- -->
         </ul>
         <?php endif ?>
         </ul>
-        </nav>      
+        </nav>
+        <?php endif; ?>
       </div>
       
       <section id="contenu">

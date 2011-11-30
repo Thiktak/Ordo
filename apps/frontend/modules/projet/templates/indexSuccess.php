@@ -13,7 +13,7 @@
     </aside>
   </header>
 
-  <table>
+  <table class="sort">
     <thead>
     <tr>
       <th>Projet</th>
@@ -28,26 +28,27 @@
     </thead>
     <tbody>
     <?php foreach ($projets as $projet): ?>
-    <tr>
-      <td><a href="<?php echo url_for('@projet?action=show&id='.$projet->getId()) ?>"><?php echo $projet ?></a></td>
-      <td style="text-align: center;">
-        <?php echo $projet->getAvancement(); ?> %
-      </td>
-      <td style="text-align: center;">
-        <?php echo $projet->getQualite(); ?>
-      </td>
-      <td><a href="<?php echo url_for('@prospect?action=show&id='.$projet->getProspectId()) ?>"><?php echo $projet->getProspect() ?></td>
+      <tr>
+        <th><a href="<?php echo url_for('@projet?action=show&id='.$projet->getId()) ?>"><?php echo $projet ?></a></th>
+        <td class="a-c">
+          <?php echo $projet->getAvancement(); ?> %
+        </td>
+        <td class="a-c">
+          <?php echo $projet->getQualite(); ?>
+        </td>
+        <td class="a-c"><a href="<?php echo url_for('@prospect?action=show&id='.$projet->getProspectId()) ?>"><?php echo $projet->getProspect() ?></td>
 
-      <?php if($respo = $projet->getRespo()) : ?>
-      <td><a href="<?php echo url_for('@annuaire?action=show&id='.$respo->getId()) ?>"><?php echo $respo ?></td>
-      <?php else : ?>
-      <td>Pas de chef de projet assigné !</td>
-      <?php endif ?>
+        <?php if($respo = $projet->getRespo()) : ?>
+        <td class="a-c"><a href="<?php echo url_for('@annuaire?action=show&id='.$respo->getId()) ?>"><?php echo $respo ?></td>
+        <?php else : ?>
+        <td class="a-c">Pas de chef de projet assigné !</td>
+        <?php endif ?>
 
-      <td><?php echo $projet->getBudget() ? format_number($projet->getBudget()).' €' : '' ?></td>
-      <td><?php echo format_date($projet->getDateDebut()) ?></td>
-      <td><?php echo format_date($projet->getDateCloture()) ?></td>
-    </tr>
+        <td class="a-c"><?php echo $projet->getBudget() ? format_number($projet->getBudget()).' €' : '' ?></td>
+        <td class="a-c"><?php echo format_date($projet->getDateDebut()) ?></td>
+        <td class="a-c"></td><?php echo format_date($projet->getDateCloture()) ?></td>
+      </tr>
     <?php endforeach; ?>
     </tbody>
   </table>
+</article>

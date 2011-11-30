@@ -53,7 +53,7 @@ function getClass($filiere)
   <div id='annuaire.show.tableauID'>
     
     <figure>
-      <span class="datas"><?php echo image_tag('/uploads/annuaire/' . $membre->getPhoto()); ?>
+      <?php echo $membre->getPhoto() ? image_tag('/uploads/annuaire/' . $membre->getPhoto()) : image_tag('avatar-empty'); ?>
       <figcaption>
         <span class="status"><span class="datas"><?php echo $membre->getStatus(); ?></span></span>
         <span class="filiere <?php echo getClass($membre->getFiliere()) ?>"><span class="datas"><?php echo $membre->getFiliere(); ?></span></span>
