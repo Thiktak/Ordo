@@ -3,14 +3,15 @@
 
 1) Développer le modèle des projets pour un accès facile aux différents documents
 
-2) Implémenter une classe de "test" pour valider les projets et leurs donner une note de qualité
-  - fonctionnement similaire à une suite de test
+2) [90%] Implémenter une classe de "test" pour valider les projets et leurs donner une note de qualité
+  - [90%] fonctionnement similaire à une suite de test
   - chaque défaut affiche un détail du problème sur la page du projet
-  - suivant la gravité du problème, un facteur entre 0 et 1 est attribué, ces facteurs sont multiplié entre eux pour donner la note globale du projet (1 = parfait)
+  - [OK]  suivant la gravité du problème, un facteur entre 0 et 1 est attribué, ces facteurs sont multiplié entre eux pour donner la note globale du projet (1 = parfait)
   
-3) Implementer dans le modèle du projet un test qui donne l'état d'avancement du projet
+3) [OK] Implementer dans le modèle du projet un test qui donne l'état d'avancement du projet
+  - Améliorer le système vis-à-vis du model et du controller
 
-4) Implementer une gestion des cotisations et des quittances de manière annuelle
+4) [OK] Implementer une gestion des cotisations et des quittances de manière annuelle
 
 5) Implementer des indicateurs pour les projets
 
@@ -23,11 +24,11 @@
 9) Générer des documents ? Voir http://linuxfr.org/news/cr%C3%A9er-des-fichiers-opendocument-sous-php-avec-opentbs-150
   - Le document le plus utile serai la convention étudiant
 
-10) Ajouter un moyen de chercher un prospect
+10) [OK] Ajouter un moyen de chercher un prospect
 
 11) Empecher la création d'un membre déjà connu (username unique)
 
-12) Permettre la recherche d'un membre dans l'annuaire
+12) [OK] Permettre la recherche d'un membre dans l'annuaire
 
 13) Ajouter un pager sur la page d'index de l'annuaire
 
@@ -39,8 +40,8 @@
 
 17) Envoyer un mail à informatique@iariss.fr a chaque ajout de membre
 
-18) Afficher sur la page d'un membre la liste des projets auquel il participe + détails
+18) [OK] Afficher sur la page d'un membre la liste des projets auquel il participe + détails
 
 19) Export en CSV ou autres des infos sur les membres
 
-20) 
+20)
