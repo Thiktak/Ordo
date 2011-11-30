@@ -50,12 +50,12 @@ class projetActions extends sfActions
       ->createQuery('a')
       ->select('a.id, a.nom, a.numero, a.budget, a.commentaire, a.date_debut, a.date_cloture, a.delai_realisation, p.nom, p.id')
       ->leftJoin('a.Prospect p')
-      ->where('a.id = ?', array($request->getParameter('id')))
+      ->where('a.id = ?', array($id = $request->getParameter('id')))
       ->execute()->getFirst();
     $this->forward404Unless($this->projet);
     
     // On met à jours les données
-    $this->projet->getMajEtatEtAvancement(1);
+    $this->projet->getMajEtatEtAvancement($id);
 
     $this->participations = $this->projet->getParticipations();
     $this->respo = $this->projet->getRespo();
@@ -76,7 +76,7 @@ class projetActions extends sfActions
       ->leftJoin('e.ProjetEventType t')
       ->leftJoin('e.ProjetEventCom c')
       ->leftJoin('e.Membre m')
-      ->where('e.projet_id = ?', array($request->getParameter('id')))
+      ->where('e.projet_id = ?', $id)
       ->orderBy('e.date DESC')
       ->execute();
     
@@ -111,8 +111,13 @@ class projetActions extends sfActions
         );
       
       $st = null;      
-      if( ($com = $event->getProjetEventCom()) && count($com) )
-        $st = $com[0]->getStatut();
+      
+      foreach( $event->getProjetEventCom() as $com )
+        if( $com->getStatut() != 0 )
+          $st = $com->getStatut();
+      
+      //if( ($com = $event->getProjetEventCom()) && count($com) )
+      //  $st = $com[count($com)-1]->getStatut();
       
       // On ajoute le document, avec les informations utiles (note Qualité+avancement)
       $aTimeLine2[$event->getAbreviation()]['childs'][$event->getId()] = array('statut' => 0 + $st);

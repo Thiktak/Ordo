@@ -12,10 +12,19 @@ class projeteventcomActions extends sfActions
 {
   public function executeNew(sfWebRequest $request)
   {
+    $this->forward404Unless($eventId = $request->getParameter('event'));
+    
+    $this->forward404Unless($projetEvent = Doctrine_Core::getTable('ProjetEvent')->find(array($eventId)), sprintf('Object projet_event_com does not exist (%s).', $request->getParameter('id')));
     $this->forward404Unless($this->user = Membre::getProfile($_SERVER['PHP_AUTH_USER']));
-    $this->forward404Unless($request->getParameter('event'));
-    $this->form = new ProjetEventComForm();
-    $this->form->setDefault('projet_event_id', $request->getParameter('event'));
+    
+    // Si Admin
+    // OU Si (Membre du document OU Relecteur)
+    if( $this->user->isAdmin() || in_array($this->user->getId(), array($projetEvent->getMembre()->getId(), $projetEvent->getMembreread()->getId())) )
+      $this->form = new ProjetEventComForm();
+    else
+      $this->form = new MembreProjetEventComForm();
+    
+    $this->form->setDefault('projet_event_id', $eventId);
     $this->form->setDefault('membre_id',       $this->user->getID());
   }
 

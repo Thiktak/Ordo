@@ -113,10 +113,9 @@ class Projet extends BaseProjet
       
       $st = null;
       
-      if( ($com = $event->getProjetEventCom()) && count($com) )
-      {
-        $st = $com[0]->getStatut();
-      }
+      foreach( $event->getProjetEventCom() as $com )
+        if( $com->getStatut() != 0 )
+          $st = $com->getStatut();
       
       // On ajoute le document, avec les informations utiles (note Qualité+avancement)
       $aTimeLine2[$event->getAbreviation()]['childs'][$event->getId()] = array('statut' => 0 + $st);
@@ -156,34 +155,25 @@ class Projet extends BaseProjet
     // On fait les statistiques globaux
     $QUALITE = array();
     $AVANCEE = array();
-    foreach( $aTimeLine2 as $values )
+    $i = 0;
+    foreach( $aTimeLine2 as $id => $values )
     {
       if( $values['QUALITE'] )
       {
-        $QUALITE[0][] = $values['QUALITE']*$values['pts'];
-        $QUALITE[1][] = $values['pts'];
+        $QUALITE[0][$id . $i] = $values['QUALITE']*$values['pts'];
+        $QUALITE[1][$id . $i] = $values['pts'];
       }
     
-      $AVANCEE[0][] = $values['AVANCEE'];
-      $AVANCEE[1][] = $values['pts'];
+      $AVANCEE[0][$id . $i] = $values['AVANCEE'];
+      $AVANCEE[1][$id . $i] = $values['pts'];
     }
-    
-    print_r($QUALITE);
     
     $qualite = round(array_sum($QUALITE[0])/array_sum($QUALITE[1]), 3);
     $avancee = round(array_sum($AVANCEE[0])/array_sum($AVANCEE[1]), 4);
     
-    
-    //print_r($aTimeLine2);
-    
     $this->setQualite($qualite*10);
     $this->setAvancement($avancee*100);
     $this->save();
-    
-    // Sauvegarde
-    //$this->setAvancement($avancee*100);
-    //$this->setQualite($qualite*10);
-    //$this->save();
     
     return array('qualite' => $qualite, 'avancement' => $avancee);
   }
