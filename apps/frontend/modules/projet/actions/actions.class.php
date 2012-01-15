@@ -12,13 +12,32 @@ class projetActions extends sfActions
 {
   public function executeIndex(sfWebRequest $request)
   {
-    $this->projets = Doctrine_Core::getTable('Projet')
+    $projets = Doctrine_Core::getTable('Projet')
       ->createQuery('a')
       ->select('a.id, a.nom, a.numero, a.date_debut, a.date_cloture, a.budget, p.nom, p.id')
       ->leftJoin('a.Prospect p')
-      ->where('a.deleted_at IS NULL')
-      ->orderBy('a.numero DESC')
-      ->execute();
+      ->orderBy('a.numero DESC');
+      
+    // Filtres pour les projets
+    $filter = new FilterHelper($request);
+      $filter->add('project', function() use($projets) {
+      $projets->orWhere('a.deleted_at IS NULL AND a.date_debut IS NULL AND a.date_cloture IS NULL');
+    });
+    $filter->add('progress', function() use($projets) {
+      $projets->orWhere('a.deleted_at IS NULL AND (a.date_debut IS NOT NULL) AND a.date_cloture IS NULL');
+    });
+    $filter->add('end', function() use($projets) {
+      $projets->orWhere('a.deleted_at IS NULL AND a.date_cloture IS NOT NULL');
+    });
+    $filter->add('canceled', function() use($projets) {
+      $projets->orWhere('a.deleted_at IS NOT NULL');
+    });
+    $filter->add('default', function() use($projets) {
+      $projets->orWhere('a.deleted_at IS NULL AND a.date_debut IS NOT NULL AND a.date_cloture IS NULL');
+    });
+    $filter->execute();
+    
+    $this->projets = $projets->execute();
   }
 
   public function executeShow(sfWebRequest $request)
