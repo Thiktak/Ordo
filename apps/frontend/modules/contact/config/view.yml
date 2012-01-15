@@ -1,2 +1,2 @@
-default:
-  stylesheets: [style]
+all:
+  stylesheets: [style, page-prospect]
