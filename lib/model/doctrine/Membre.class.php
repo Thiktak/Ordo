@@ -14,14 +14,14 @@ class Membre extends BaseMembre
 {
   public function __toString() {
     if($this->getPrenom() != '' || $this->getNom() != '')
-      return $this->getPrenom().' '.$this->getNom();
+      return $this->getNom().' '.$this->getPrenom();
     else
       return ' ('.$this->getUsername().')';
   }
 
   public function getFullString() {
     if($this->getPrenom() != '' || $this->getNom() != '')
-      return $this->getPrenom().' '.$this->getNom().' ('.$this->getUsername().')';
+      return $this->getNom().' '.$this->getPrenom().' ('.$this->getUsername().')';
     else
       return ' ('.$this->getUsername().')';
   }

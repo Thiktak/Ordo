@@ -23,8 +23,12 @@ class annuaireActions extends sfActions
     $filter->add('membre',  function() use($membres) {  $membres->orWhere('a.status = ? OR a.status = ?', array('Membre', 'Administrateur'));  });
     $filter->add('default', function() use($membres) {  $membres->andWhere('a.status = ? OR a.status = ?', array('Membre', 'Administrateur')); });
     $filter->execute();
+<<<<<<< HEAD
 
     $this->membres = $membres->orderBy('a.status, a.nom')->execute();
+=======
+    $this->membres = $membres->orderBy('CONCAT(a.nom, SUBSTRING(a.email_interne, LOCATE(\'.\', a.email_interne)+1)), a.email_interne, a.nom')->execute();
+>>>>>>> EDIT Annuaire:trombi : order & change nom/prenom -> prenom/nom
   }
 
   public function executeShow(sfWebRequest $request)
