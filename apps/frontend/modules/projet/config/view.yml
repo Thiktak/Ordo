@@ -1,2 +1,2 @@
-default:
-  stylesheets: [main.css, projet.css]
+all:
+  stylesheets: [style]
