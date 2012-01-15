@@ -21,22 +21,27 @@ class prospectActions extends sfActions
       ->orderBy('p.updated_at DESC');
 
     $this->filter = 'index';
-
-    switch($request->getParameter('filter'))
+    
+    $ID = $this->user->getId();
+    
+    $filter = new FilterHelper($request);
+    
+    // Cas du filtre 'MY'
+    $filter->add('my', function() use($query, $ID)
     {
-      case 'my':
-        $filter = 'my';
-        $query->leftJoin('p.Contacts c')
-              ->leftJoin('c.Membre m')
-              ->where('m.id = ?', array($this->user->getId()))
-              ->groupBy('p.nom');
-        break;
-
-      case 'recontact':
-        $filter = 'recontact';
-        $query->where('p.a_rappeler = 1');
-        break;
-    }
+      $query->leftJoin('p.Contacts c')
+            ->leftJoin('c.Membre m')
+            ->AndWhere('m.id = ?', $ID)
+            ->groupBy('p.nom');
+    });
+    
+    // Cas du filtre 'RECONTACT'
+    $filter->add('recontact', function() use($query)
+    {
+        $query->AndWhere('p.a_rappeler = 1');
+    });
+    
+    $filter->execute();
     
     $this->pager = new sfDoctrinePager('Prospect', 25);
     $this->pager->setPage($request->getParameter('page', 1));
