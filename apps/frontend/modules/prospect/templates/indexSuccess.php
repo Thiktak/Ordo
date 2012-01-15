@@ -1,5 +1,5 @@
 <?php use_helper('Filter', 'Date') ?>
-<article class="page-prospect">
+<article class="page-prospect page-prospect-index">
   <header>
     <h1>Liste des prospects (<?php echo count($pager); ?>)</h1>
     <aside>
