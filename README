@@ -2,7 +2,7 @@
 
 0) Introduction
   Cette application est un ERP simple destiné à la gestion d'une Junior-Entreprise. Il a été développé 
-  en premier lieu pour les besoins de la Pépinière Junior-Entreprise IARISS (http://iariss.fr).
+  en premier lieu pour les besoins de la Junior-Entreprise IARISS (http://iariss.fr).
 
 1) License
   Sauf mention contraire, l'ensemble de cette application est placé sous license GPLv3. 
@@ -12,7 +12,7 @@
   - développeurs:
     Michael Muré -- batolettre@gmail.com -- développeur principal
     Théophile Helleboid
-    Georges Olivares
+    Georges Olivares -- olivares.georges@gmail.com
 
   - commentaires et tests:
     Razika Yamoun
