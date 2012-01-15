@@ -5,3 +5,6 @@ statsSuccess:
     - jquery.flot.selection.min.js
     - excanvas.min.js: { condition: IE }
 
+all:
+  stylesheets: [style, page-contact]
+  #page-contact.css not yet created

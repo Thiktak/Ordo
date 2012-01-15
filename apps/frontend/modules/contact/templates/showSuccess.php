@@ -1,6 +1,16 @@
 <?php use_helper('Date') ?>
-<table>
-  <tbody>
+<article>
+  <header>
+    <aside>
+      <ul>
+        <li><?php echo link_to('Modifier', '@contact?action=edit&id='.$contact->getId(), array('class' => 'actionedit')) ?></li>
+        <li><?php echo link_to('Revenir au prospect', '@prospect?action=show&id='.$contact->getProspectId(), array('class' => 'actionlist')) ?></li>
+      </ul>
+    </aside>
+  </header>
+
+  <table>
+    <tbody>
     <tr>
       <th>Prospect</th>
       <td><?php echo link_to($contact->getProspect(), '@prospect?action=show&id='.$contact->getProspectId()) ?></td>
@@ -20,8 +30,8 @@
     <tr>
       <th>Type de contact</th>
       <td>
-        <img src="/images/<?php echo $contact->getTypeContact()->getLogo() ?>.png" />
-        <?php echo $contact->getTypeContact() ?>
+      <img src="/images/<?php echo $contact->getTypeContact()->getLogo() ?>.png" />
+      <?php echo $contact->getTypeContact() ?>
       </td>
     </tr>
     <tr>
@@ -32,11 +42,6 @@
       <th>Maj le</th>
       <td><?php echo format_date($contact->getUpdatedAt()) ?></td>
     </tr>
-  </tbody>
-</table>
-
-<ul>
-  <li><?php echo link_to('Modifier', '@contact?action=edit&id='.$contact->getId(), array('class' => 'actionedit')) ?></li>
-  <li><?php echo link_to('Revenir au prospect', '@prospect?action=show&id='.$contact->getProspectId(), array('class' => 'actionlist')) ?></li>
-</ul>
-
+    </tbody>
+  </table>
+</article>
